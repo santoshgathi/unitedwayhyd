@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Donors extends CI_Controller {
 
 	private $headerData = array('page_title'=>'');
 
@@ -15,9 +15,16 @@ class Welcome extends CI_Controller {
     } 
 	
 	public function index() {
-		$this->headerData['page_title'] = 'Dashboard';
+		$this->headerData['page_title'] = 'List Donors';
 		$this->load->view('header', $this->headerData);
-		$this->load->view('welcome_message');
+		$this->load->view('donors/index');
+		$this->load->view('footer');
+    }
+    
+    public function create() {
+		$this->headerData['page_title'] = 'Create Donor';
+		$this->load->view('header', $this->headerData);
+		$this->load->view('donors/create');
 		$this->load->view('footer');
 	}
 }

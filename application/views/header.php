@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Dashboard</title>
+  <title>UnidtedwayHyderabad</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -115,16 +115,10 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Upload</p>
-                </a>
+              <?php echo anchor('eightyg/fileupload','<i class="far fa-circle nav-icon"></i><p>Upload</p>', 'class="nav-link"'); ?>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>List</p>
-                </a>
+              <?php echo anchor('eightyg','<i class="far fa-circle nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
               </li>
             </ul>
           </li>
@@ -138,16 +132,10 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Add New</p>
-                </a>
+              <?php echo anchor('donors/create','<i class="far fa-circle nav-icon"></i><p>Add New</p>', 'class="nav-link"'); ?>
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>List</p>
-                </a>
+              <?php echo anchor('donors','<i class="far fa-circle nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
               </li>
             </ul>
           </li>        
@@ -161,3 +149,24 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+    
+	<!-- Content Header (Page header) -->
+  <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark"><?php echo $page_title; ?></h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <!-- <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol> -->
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+ <!-- Main content -->
+ <section class="content">
+      <div class="container-fluid">

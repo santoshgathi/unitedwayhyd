@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Eightyg extends CI_Controller {
 
 	private $headerData = array('page_title'=>'');
 
@@ -15,9 +15,16 @@ class Welcome extends CI_Controller {
     } 
 	
 	public function index() {
-		$this->headerData['page_title'] = 'Dashboard';
+		$this->headerData['page_title'] = 'List 80G';
 		$this->load->view('header', $this->headerData);
-		$this->load->view('welcome_message');
+		$this->load->view('eightyg/index');
+		$this->load->view('footer');
+	}
+
+	public function fileupload() {
+		$this->headerData['page_title'] = 'Upload 80G';
+		$this->load->view('header', $this->headerData);
+		$this->load->view('eightyg/fileupload');
 		$this->load->view('footer');
 	}
 }
