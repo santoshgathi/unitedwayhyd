@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Donors extends CI_Controller {
 
 	private $headerData = array('page_title'=>'');
+	private $viewData;
 
 	function __construct() { 
         parent::__construct();         
@@ -17,14 +18,14 @@ class Donors extends CI_Controller {
 	public function index() {
 		$this->headerData['page_title'] = 'List Donors';
 		$this->load->view('header', $this->headerData);
-		$this->load->view('donors/index');
+		$this->load->view('donors/index', $this->viewData);
 		$this->load->view('footer');
     }
     
     public function create() {
 		$this->headerData['page_title'] = 'Create Donor';
 		$this->load->view('header', $this->headerData);
-		$this->load->view('donors/create');
+		$this->load->view('donors/create', $this->viewData);
 		$this->load->view('footer');
 	}
 }

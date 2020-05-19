@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Areas extends CI_Controller {
 
 	private $headerData = array('page_title'=>'');
+	private $viewData;
 
 	function __construct() { 
         parent::__construct();         
@@ -17,14 +18,14 @@ class Areas extends CI_Controller {
 	public function index() {
 		$this->headerData['page_title'] = 'List Areas';
 		$this->load->view('header', $this->headerData);
-		$this->load->view('areas/index');
+		$this->load->view('areas/index', $this->viewData);
 		$this->load->view('footer');
 	}
 
 	public function create() {
 		$this->headerData['page_title'] = 'Create Area';
 		$this->load->view('header', $this->headerData);
-		$this->load->view('areas/create');
+		$this->load->view('areas/create', $this->viewData);
 		$this->load->view('footer');
 	}
 }
