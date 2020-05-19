@@ -8,15 +8,15 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form">
+              <?php echo form_open('donors/save'); ?>
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Donor Name</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Donor Name">
+                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter Donor Name" name="Donorname">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Phone</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Phone No">
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Phone No" name="Pho">
                   </div>
                 </div>
                 <!-- /.card-body -->
