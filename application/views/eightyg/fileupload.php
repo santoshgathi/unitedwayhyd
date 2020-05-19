@@ -8,15 +8,20 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form">
-                <div class="card-body">
-                  
+              <?php if(isset($error)): ?>
+            <div class="alert alert-danger" role="alert">
+            <?php echo $error; ?>
+            </div>
+            <?php endif; ?>
+            <?php echo validation_errors(); ?>
+              <?php echo form_open_multipart('eightyg/do_upload');?>
+                <div class="card-body"> 
                   
                   <div class="form-group">
                     <label for="exampleInputFile">80G file</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile">
+                        <input type="file" class="custom-file-input" name="userfile" required>
                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                       </div>
                     </div>
