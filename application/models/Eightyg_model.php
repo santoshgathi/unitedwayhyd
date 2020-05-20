@@ -14,3 +14,18 @@ class Eightyg_model extends CI_Model {
     }
 
 }
+
+class Eightyg_model extends CI_Model {
+	
+    public function getAreas()
+	{
+		$this->load->database();
+		$res = $this->db->query("SELECT * FROM  areas");
+		return $res->result_array();
+	}
+	
+	public function insertAreas()
+	{
+	
+	}
+}
