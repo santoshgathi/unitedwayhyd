@@ -38,4 +38,26 @@ class Areas extends CI_Controller {
             redirect('areas');
         }
 	}
+	
+	public function edit($data) {
+		
+		$this->headerData['page_title'] = 'Edit Area';
+		$this->load->model('Areas_model');
+		$this->areas['area'] = $this->Areas_model->get_areas($data);
+		
+		$this->form_validation->set_rules('area_name', 'Area_name', 'required');
+	
+		if ($this->form_validation->run() === FALSE) {
+         	$this->load->view('header', $this->headerData);
+			$this->load->view('areas/edit', $this->areas);
+			$this->load->view('footer');
+        } else {
+			$area['area_name'] = $this->input->post('area_name');
+			$this->viewData['area_d'] = $this->Areas_model->update_area($area,$data);
+			$this->session->set_flashdata('success', 'Updated Successfully');
+            redirect('areas');
+        }
+	}
+	
+	
 }
