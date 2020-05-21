@@ -1,0 +1,68 @@
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-6">
+        <!-- general form elements -->
+        <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Update Expenditure</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <?php if(isset($error)): ?>
+            <div class="alert alert-danger" role="alert">
+            <?php echo $error; ?>
+            </div>
+            <?php endif; ?>
+            <?php echo validation_errors(); ?>
+              <?php echo form_open('expenditures/update/'.$exp_details->expenditure_id);?>
+                <div class="card-body"> 
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Expenditure Date</label>
+                    <?php echo form_input('expenditure_dt', $exp_details->expenditure_dt, 'class="form-control"'); ?>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">donor_id</label>
+                    <?php echo form_input('donor_id', $exp_details->donor_id, 'class="form-control"'); ?>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Area id</label>
+                    <?php echo form_input('area_id', $exp_details->area_id, 'class="form-control"'); ?>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nutrition_hygiene_kit</label>
+                    <?php echo form_input('nutrition_hygiene_kit', $exp_details->nutrition_hygiene_kit, 'class="form-control"'); ?>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">meals</label>
+                    <?php echo form_input('meals', $exp_details->meals, 'class="form-control"'); ?>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">medical_equipment</label>
+                    <?php echo form_input('medical_equipment',$exp_details->medical_equipment, 'class="form-control"'); ?>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">sanitation_material </label>
+                    <?php echo form_input('sanitation_material', $exp_details->sanitation_material, 'class="form-control"'); ?>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Ppe_kits</label>
+                    <?php echo form_input('ppe_kits', $exp_details->ppe_kits, 'class="form-control"'); ?>
+                </div> 
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Amount_spent</label>
+                    <?php echo form_input('amount_spent', $exp_details->amount_spent, 'class="form-control"'); ?>
+                </div> 
+                
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+    </div>
+    <!--/.col (left) -->
+</div>
+<!-- /.row -->

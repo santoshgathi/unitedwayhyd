@@ -8,6 +8,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
+              <?php echo validation_errors(); ?>
               <?php echo form_open('Expenditures/save'); ?>
                 <div class="card-body">
                   <div class="form-group">
@@ -36,6 +37,23 @@
                     <label for="exampleInputPassword1">Meals</label>
                     <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Meals No" name="meals">
                   </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">medical equipment</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter medical_equipment" name="medical_equipment">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">sanitation material</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="sanitation_material" name="sanitation_material">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">ppe kits</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="ppe_kits" name="ppe_kits">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">amount spent</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter amount_spent" name="amount_spent">
+                  </div>
+               
                 </div>
                 <!-- /.card-body -->
 

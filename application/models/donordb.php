@@ -51,4 +51,29 @@ class Donordb extends CI_Model{
 		return $query->result_array();
 
 	}
+
+	public function get_details($donor_id) {
+        $this->db->where('donor_id', $donor_id);
+        $query = $this->db->get('donors');
+        $row = $query->row();
+        return $row;
+	}
+	public function update_entry($data, $donor_id) {
+		
+        $this->db->where('donor_id', $donor_id);
+        $this->db->update('donors', $data);
+        //echo $this->db->last_query(); 
+	}
+	public function get_details_exp($exp_id) {
+        $this->db->where('expenditure_id', $exp_id);
+        $query = $this->db->get('expenditures');
+        $row = $query->row();
+        return $row;
+	}
+	public function update_entry_exp($data, $exp_id) {
+	
+        $this->db->where('expenditure_id', $exp_id);
+        $this->db->update('expenditures', $data);
+        //echo $this->db->last_query(); 
+	}
 }

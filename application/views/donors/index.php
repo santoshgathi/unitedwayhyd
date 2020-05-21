@@ -36,6 +36,7 @@
 			<th>id</th>
 			<th>Donorname</th>
 			<th>Phno</th>
+			<th>Actions</th>
 </tr>
 <?php 
 foreach ($view_data as $key => $value) {
@@ -44,7 +45,8 @@ foreach ($view_data as $key => $value) {
 	 echo "<tr>
 	 	<td>".$value['donor_id']."</td>
 	 	<td>".$value['donor_name']."</td>
-	 	<td>".$value['donor_phone']."</td>
+		 <td>".$value['donor_phone']."</td>
+		<td>".anchor('donors/update/'.$value['donor_id'], 'edit', '')."</td>
 
 	 </tr>";
 	# code...

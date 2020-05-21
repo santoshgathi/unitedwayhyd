@@ -40,6 +40,14 @@
             <th>Area_id</th>
             <th>nutrition_hygiene_kit</th>
             <th>meals</th>
+            <th>medical_equipment</th>
+            <th>sanitation_material</th>
+            <th>ppe_kits</th>
+            <th>amount_spent</th>
+            <th>Actions</th>
+            
+
+            
 </tr>
 <?php 
 foreach ($view_data as $key => $value) {
@@ -52,6 +60,15 @@ foreach ($view_data as $key => $value) {
         <td>".$value['area_id']."</td>
         <td>".$value['nutrition_hygiene_kit']."</td>
         <td>".$value['meals']."</td>
+        <td>".$value['medical_equipment']."</td>
+        <td>".$value['sanitation_material']."</td>
+        <td>".$value['ppe_kits']."</td>
+        <td>".$value['amount_spent']."</td>
+        <td>".anchor('expenditures/update/'.$value['expenditure_id'], 'edit', '')."</td>
+
+      
+
+
 
 	 </tr>";
 	# code...
