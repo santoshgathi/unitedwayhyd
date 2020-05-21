@@ -79,6 +79,39 @@ class Eightyg extends CI_Controller {
 		$this->load->view('footer');
 	}
 
+	public function update($egithyg_id) {
+		$this->headerData['page_title'] = 'Update 80G';
+		$this->viewData['eightyg_details'] = $this->eightyg_model->get_details($egithyg_id);
+		//print_r($eightyg_details);
+		$this->form_validation->set_rules('receipt_no', 'receipt no', 'required');
+		$this->form_validation->set_rules('donor_name', 'donor name', 'required');
+		$this->form_validation->set_rules('pan_no', 'pan no', 'required');
+		$this->form_validation->set_rules('email', 'email', 'required');
+		$this->form_validation->set_rules('sum_monthly_contribution', 'sum monthly contribution', 'required');
+		$this->form_validation->set_rules('trns_date', 'trns date', 'required');
+		$this->form_validation->set_rules('ref_details', 'ref details', 'required');
+		$this->form_validation->set_rules('bank', 'bank', 'required');
+		if ($this->form_validation->run() === FALSE) {
+         	$this->load->view('header', $this->headerData);
+			$this->load->view('eightyg/update', $this->viewData);
+			$this->load->view('footer');
+        } else {
+			// form submit
+			// db save -- list page redirect 
+			$data['receipt_no'] = $this->input->post('receipt_no');
+			$data['donor_name'] = $this->input->post('donor_name');
+			$data['pan_no'] = $this->input->post('pan_no');
+			$data['email'] = $this->input->post('email');
+			$data['sum_monthly_contribution'] = $this->input->post('sum_monthly_contribution');
+			$data['trns_date'] = $this->input->post('trns_date');
+			$data['ref_details'] = $this->input->post('ref_details');
+			$data['bank'] = $this->input->post('bank');
+			$this->viewData['eightyg_details'] = $this->eightyg_model->update_entry($data, $egithyg_id);
+			$this->session->set_flashdata('success', 'Updated Successfully');
+            redirect('eightyg');
+        }
+	}
+
 	public function generatepdf () {
 		$details['firstname'] = 'first';
 		$details['lastname'] = 'last';

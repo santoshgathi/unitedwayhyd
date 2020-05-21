@@ -11,12 +11,12 @@ class Areas extends CI_Controller {
 		$isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
 		if(!$isUserLoggedIn) { 
             redirect('login'); 
-        } 
+		}
+		$this->load->model('areas_model');
     } 
 	
 	public function index() {
-		$this->load->model('Eightyg_model');
-		$data['areas'] = $this->Eightyg_model->getAreas();
+		$data['areas'] = $this->areas_model->getAreas();
 		$this->headerData['page_title'] = 'List Areas';
 		$this->load->view('header', $this->headerData);
 		$this->load->view('areas/index', $data);
@@ -25,24 +25,17 @@ class Areas extends CI_Controller {
 
 	public function create() {
 		$this->headerData['page_title'] = 'Create Area';
-		$this->load->view('header', $this->headerData);
-		$this->load->view('areas/create');
-		$this->load->view('footer');
-		$data="";
-		$data = $this->input->post("newArea");
-	}
-	
-	public function toDatabase(){
-	    $data="";
-		$mes['message'] = 'Area Saved';
-		$data = $this->input->post("newArea");
-		if($data){
-		$this->load->database();
-		$res = $this->db->query("INSERT INTO `areas`(`area_name`) VALUES ('$data')");
-		}
-		$this->headerData['page_title'] = 'Create Area';
-		$this->load->view('header', $this->headerData);
-		$this->load->view('areas/create', $mes);
-		$this->load->view('footer');
+		$this->form_validation->set_rules('newArea', 'Area Name', 'required');      
+        
+        if ($this->form_validation->run() === FALSE) {
+            $this->load->view('header', $this->headerData);
+			$this->load->view('areas/create');
+			$this->load->view('footer');
+        } else {
+			$data['area_name'] = $this->input->post("newArea");
+			$this->areas_model->insertAreas($data);
+			$this->session->set_flashdata('success', 'Inserted Successfully');
+            redirect('areas');
+        }
 	}
 }

@@ -17,6 +17,7 @@
                       <th>date</th>
                       <th>ref details</th>
                       <th>bank</th>
+                      <th>actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -30,6 +31,7 @@
                     echo '<td>'.$data['trns_date'].'</td>';
                     echo '<td>'.$data['ref_details'].'</td>';
                     echo '<td>'.$data['bank'].'</td>';
+                    echo '<td>'.anchor('eightyg/update/'.$data['id'], 'edit', '').'</td>';
                     echo '</tr>';
                   } ?>
                   </tbody>
