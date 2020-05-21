@@ -9,11 +9,11 @@
               <!-- /.card-header -->
               <!-- form start -->
               <?php echo validation_errors(); ?>
-              <?php echo form_open('Expenditures/save'); ?>
+              <?php echo form_open('Expenditures/create'); ?>
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Date</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Select Date" name="date">
+                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Select Date" name="expenditure_dt">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Donor</label>
@@ -31,7 +31,7 @@
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Nutrition + Hygiene kit</label>
-                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Nutrition No" name="nutrition">
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Nutrition No" name="nutrition_hygiene_kit">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputPassword1">Meals</label>

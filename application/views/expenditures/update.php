@@ -21,13 +21,13 @@
                     <?php echo form_input('expenditure_dt', $exp_details->expenditure_dt, 'class="form-control"'); ?>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">donor_id</label>
-                    <?php echo form_input('donor_id', $exp_details->donor_id, 'class="form-control"'); ?>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Area id</label>
-                    <?php echo form_input('area_id', $exp_details->area_id, 'class="form-control"'); ?>
-                </div>
+                    <label for="exampleInputEmail1">Donor</label>
+                    <?php echo form_dropdown('donor_id',$donor_name, $exp_details->donor_id, 'class="form-control"');?>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Area</label>
+                    <?php echo form_dropdown('area_id',$area, $exp_details->area_id, 'class="form-control"');?>
+                  </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Nutrition_hygiene_kit</label>
                     <?php echo form_input('nutrition_hygiene_kit', $exp_details->nutrition_hygiene_kit, 'class="form-control"'); ?>

@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH .'third_party/fpdf/fpdf.php');
-class Eightyg extends CI_Controller {
+
+class Eightyg extends MY_Controller {
 
 	private $headerData = array('page_title'=>'');
 	private $viewData;
@@ -17,8 +18,15 @@ class Eightyg extends CI_Controller {
     } 
 	
 	public function index() {
+		$this->load->library('pagination');
 		$this->headerData['page_title'] = 'List 80G';
-		$this->viewData['eightyg_data']  = $this->eightyg_model->get_entries();
+		$this->viewData['size'] = $size = $this->input->get('size') ? $this->input->get('size') : 3;
+		$page = $this->input->get('per_page') ? $this->input->get('per_page') : 0;
+		$config = $this->pagination_config_array('/index.php/eightyg/index/', $size);
+		$config['total_rows'] = $this->eightyg_model->get_entries('count', 0, 0);
+		$this->viewData['eightyg_data'] = $this->eightyg_model->get_entries('rows', $page, $config['per_page']);
+		$this->pagination->initialize($config);
+		$this->viewData['paginationSummary']  = $this->pagination_summary($page, $config['per_page'], $config['total_rows']);
 		$this->load->view('header', $this->headerData);
 		$this->load->view('eightyg/index', $this->viewData);
 		$this->load->view('footer');
@@ -71,7 +79,7 @@ class Eightyg extends CI_Controller {
 				//print_r($data);
 				$this->eightyg_model->insert_entry($data);
 			}
-			$this->session->set_flashdata('error', 'Inserted Successfully');
+			$this->session->set_flashdata('success', 'Inserted Successfully');
 			redirect('eightyg');
 		}
 		$this->load->view('header', $this->headerData);

@@ -10,7 +10,7 @@
               <!-- /.card-header -->
               <!-- form start -->
               <?php echo validation_errors(); ?>
-              <?php echo form_open('donors/save'); ?>
+              <?php echo form_open('donors/create'); ?>
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Donor Name</label>

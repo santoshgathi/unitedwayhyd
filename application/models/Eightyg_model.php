@@ -14,9 +14,26 @@ class Eightyg_model extends CI_Model {
         //echo $this->db->last_query(); 
     }
 
-    public function get_entries($slug = FALSE) {
-        $query = $this->db->get('80guploads');
-        return $query->result_array();
+    public function get_entries($action = 'rows', $start, $limit) {
+        $this->db->from('80guploads');
+        if($action == 'rows' || $action == 'export') {
+            if($action !== 'export') {
+                $this->db->limit($limit, $start);
+            }
+            $query = $this->db->get();
+            //echo $this->db->last_query(); 
+            if($action == 'export') {
+                return $query;
+            } else {
+                return $query->result();
+            }
+        } else if($action == 'count') {
+            // $total_count = $this->db->count_all_results();
+            // echo $this->db->last_query(); 
+            // return $total_count;
+            return $this->db->count_all_results();
+        }
+        return FALSE;        
     }
 
     public function get_details($egithyg_id) {

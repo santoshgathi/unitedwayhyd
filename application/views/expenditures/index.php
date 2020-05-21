@@ -1,40 +1,15 @@
-<?php
 
-?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<style>
-#customers {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#customers td, #customers th {
-  border: 1px solid #ddd;
-  padding: 8px;
-}
-
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
-#customers th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #4CAF50;
-  color: white;
-}
-</style>
-<body>
+<div class="row"><div class="col-md-12">
+<div class="card">
+              <!-- <div class="card-header">
+                <h3 class="card-title">Bordered Table</h3>
+              </div> -->
+              <!-- /.card-header -->
+              <div class="card-body">
 	<table id="customers">
 		<tr>
             
-			<th>id</th>
+		
 			<th>Expenditure date</th>
             <th>Donor_id</th>
             <th>Area_id</th>
@@ -45,17 +20,14 @@
             <th>ppe_kits</th>
             <th>amount_spent</th>
             <th>Actions</th>
-            
-
-            
 </tr>
 <?php 
 foreach ($view_data as $key => $value) {
 	
 
 	 echo "<tr>
-	 	<td>".$value['expenditure_id']."</td>
-	 	<td>".$value['expenditure_dt']."</td>
+	 	
+	 	<td>".date('d-m-Y', strtotime($value['expenditure_dt']))."</td>
         <td>".$value['donor_id']."</td>
         <td>".$value['area_id']."</td>
         <td>".$value['nutrition_hygiene_kit']."</td>
@@ -76,12 +48,16 @@ foreach ($view_data as $key => $value) {
 ?>
 
 </table>
-
-</body>
-</html>
-
-<?php 
-// echo "<pre>";
-// print_r($user);
-// echo "<pre>";
- ?>
+</div>
+              <!-- /.card-body -->
+              <div class="card-footer clearfix">
+                <ul class="pagination pagination-sm m-0 float-right">
+                  <li class="page-item"><a class="page-link" href="#">«</a></li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item"><a class="page-link" href="#">»</a></li>
+                </ul>
+              </div>
+            </div>
+            </div>    </div>

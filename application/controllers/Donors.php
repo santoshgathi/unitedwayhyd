@@ -12,7 +12,8 @@ class Donors extends CI_Controller {
 		$isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
 		if(!$isUserLoggedIn) { 
             redirect('login'); 
-        }  
+		} 
+		$this->load->model('donordb');
     } 
 	
 	public function index() {
@@ -27,42 +28,26 @@ class Donors extends CI_Controller {
     }
     
     public function create() {
-		$this->headerData['page_title'] = 'Create Donor';
-		$this->load->view('header', $this->headerData);
-		$this->load->view('donors/create', $this->viewData);
-		$this->load->view('footer');
-	}
-	public function save(){
+		$this->headerData['page_title'] = 'Create Donor';		
 		$this->form_validation->set_rules('Donorname', 'Donorname', 'required'); 
-        $this->form_validation->set_rules('Pho', 'Phone number', 'required');        
-        
-        if ($this->form_validation->run() === FALSE) {
-			$this->headerData['page_title'] = 'Create Donor';
+        $this->form_validation->set_rules('Pho', 'Phone number', 'required');     
+		if ($this->form_validation->run() === FALSE) {			
 			$this->load->view('header', $this->headerData);
-			$this->load->view('donors/create',$this->viewData); 
-			$this->load->view('footer');   
+			$this->load->view('donors/create', $this->viewData);
+			$this->load->view('footer');
         } else {
-		$donorname = $this->input->post('Donorname');
-		$pho = $this->input->post('Pho');
-		$ph1=$pho;
-
-		$data=[
-			'donor_name'=>$donorname,
-			'donor_phone'=>$pho
-		];
-		
-		$this->load->model('donordb');
-		$message=$this->donordb->add('donors',$data);
-		
-		$this->viewData['view_data']=$this->donordb->return_users();
-		
-		
-		$this->headerData['page_title'] = 'List Donors';
-		$this->load->view('header', $this->headerData);
-		$this->load->view('donors/index',$this->viewData);
-		$this->load->view('footer');
+			$donorname = $this->input->post('Donorname');
+			$pho = $this->input->post('Pho');
+			$ph1=$pho;
+			$data=[
+				'donor_name'=>$donorname,
+				'donor_phone'=>$pho
+			];			
+			$message=$this->donordb->add('donors',$data);
+			redirect('donors');
 		}
 	}
+	
 	public function update($donor_id) {
 		
 		$this->headerData['page_title'] = 'Update Donors';
