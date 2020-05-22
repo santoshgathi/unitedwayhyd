@@ -1,12 +1,13 @@
-
 <div class="row"><div class="col-md-12">
 <div class="card">
               <!-- <div class="card-header">
                 <h3 class="card-title">Bordered Table</h3>
               </div> -->
               <!-- /.card-header -->
+              <?php echo form_open($current_url); echo form_hidden('eightysubmit', 'yes');?>
               <div class="card-body">
-                <table class="table table-bordered">
+              
+                <table class="table table-bordered table-sm">
                   <thead>                  
                     <tr>
                     <th></th>
@@ -22,9 +23,9 @@
                     </tr>
                   </thead>
                   <tbody>
-                  <?php foreach($eightyg_data as $data) {
+                  <?php foreach($eightyg_data as $k => $data) {
                       echo '<tr>';
-                      echo '<td><input type="checkbox" name="eightyg_ids[]" value="'.$data->id.'"></td>';
+                      echo '<td><input type="checkbox" name="eightyg_ids[]" value="'.$k.'"></td>';
                     echo '<td>'.$data->receipt_no.'</td>';
                     echo '<td>'.$data->donor_name.'</td>';
                     echo '<td>'.$data->pan_no.'</td>';
@@ -38,12 +39,15 @@
                   } ?>
                   </tbody>
                 </table>
+                
               </div>
               <!-- /.card-body -->
               <div class="card-footer clearfix">
+              <button type="submit" name="insert" value="Insert" class="btn btn-primary">Submit</button>
                 <ul class="pagination pagination-sm m-0 float-right">
                   <?php echo $this->pagination->create_links();?>
                 </ul>
-              </div>
+              </div><!-- /.card-footer -->
+              </form>
             </div>
             </div>    </div>

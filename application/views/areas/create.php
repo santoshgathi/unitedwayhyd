@@ -10,7 +10,7 @@
               <!-- /.card-header -->
               <!-- form start -->
 			  
-              <?php echo form_open('areas/create'); ?>
+              <?php echo form_open('areas/create');?>
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Area Name</label>

@@ -18,6 +18,7 @@ class Eightyg extends MY_Controller {
     } 
 	
 	public function index() {
+		$this->headerData['current_url'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		$this->load->library('pagination');
 		$this->headerData['page_title'] = 'List 80G';
 		$this->viewData['size'] = $size = $this->input->get('size') ? $this->input->get('size') : 3;
@@ -25,14 +26,19 @@ class Eightyg extends MY_Controller {
 		$config = $this->pagination_config_array('/index.php/eightyg/index/', $size);
 		$config['total_rows'] = $this->eightyg_model->get_entries('count', 0, 0);
 		$this->viewData['eightyg_data'] = $this->eightyg_model->get_entries('rows', $page, $config['per_page']);
+		//print_r($this->viewData['eightyg_data']);
 		$this->pagination->initialize($config);
 		$this->viewData['paginationSummary']  = $this->pagination_summary($page, $config['per_page'], $config['total_rows']);
-
-		$eightyg_ids = $this->input->post('eightyg_ids');
-		for ($i=0; $i < sizeof($eightyg_ids); $i++) { 
-			$data = array('student_id' => $eightyg_ids[$i]);
-			$this->generatepdf('added_student',$data);
-		}
+		$this->form_validation->set_rules('eightysubmit', 'Form submit', 'required');
+		if ($this->form_validation->run() === FALSE) {
+		} else {
+			$eightyg_ids = $this->input->post('eightyg_ids');
+			//print_r($eightyg_ids);
+			for ($i=0; $i < sizeof($eightyg_ids); $i++) { 
+				//print_r($this->viewData['eightyg_data'][$i]);
+				$this->generate80G_PDF($this->viewData['eightyg_data'][$i]);
+			}
+		}		
 
 		$this->load->view('header', $this->headerData);
 		$this->load->view('eightyg/index', $this->viewData);
@@ -127,9 +133,9 @@ class Eightyg extends MY_Controller {
         }
 	}
 
-	public function generatepdf () {
+	public function generatepdf ($data) {
 		$details['firstname'] = 'first';
-		$details['lastname'] = 'last';
+		$details['lastname'] = '';
 		$details['city'] = 'hyd';
 		$details['state'] = 'ap';
 		$details['pan'] = 'pan1';
@@ -137,9 +143,14 @@ class Eightyg extends MY_Controller {
 		$this->generate80G_PDF($details, '123', 'Donation towards COVID-19 Relief Work');
 	}
 	
-	public function generate80G_PDF($details=array(),$trans_id='',$donated_for=''){
-		$date   =   date('d-M-Y');
-		$name   =   $details['firstname'].'_'.$details['lastname'];
+	public function generate80G_PDF($details) {
+		$city = '';
+		$state = '';
+		$trans_id = $details->ref_details;
+		$donated_for='Donation towards COVID-19 Relief Work';
+		$date   =   date('d-M-Y', strtotime($details->trns_date));
+		//$name   =   $details['firstname'].'_'.$details['lastname'];
+		$name   =   $details->donor_name;
 		$pdf    =   new FPDF();
 		$pdf->AddPage('P','A3');
 		$pdf->SetTitle('80g Certificate');
@@ -162,12 +173,12 @@ class Eightyg extends MY_Controller {
 		$pdf->SetXY(10,80);
 		$pdf->Cell(50,0,$name);
 		$pdf->SetXY(10,85);
-		$pdf->Cell(50,0,$details['city']);
+		$pdf->Cell(50,0,$city);
 		$pdf->SetXY(10,90);
-		$pdf->Cell(50,0,$details['state']);
+		$pdf->Cell(50,0,$state);
 		$pdf->setFont('Arial','B',12);
 		$pdf->SetXY(10,95);
-		$pdf->Cell(50,0,'PAN: '.$details['pan']);
+		$pdf->Cell(50,0,'PAN: '.$details->pan_no);
 		$pdf->setFont('Arial','',12);
 		$pdf->SetXY(10,105);
 		$pdf->Cell(50,0,'Thank you for your thoughtful donation to United Way of Hyderabad. Your generous contributions will help us work towards helping the needy.');
@@ -216,9 +227,9 @@ class Eightyg extends MY_Controller {
 		$pdf->setFont('Arial','',12);
 		$pdf->Cell($width_cell[2],10,'We confirm the receipt of donation from '.$name.'  Vide Payu Transfer No: '.$trans_id.' Dated: '.$date,1,1,'C',false);
 		$pdf->Cell($width_cell[0],10,'Total Donation Received',1,0,'C',false);
-		$pdf->Cell($width_cell[1],10,'Rs. '.$details['amount'],1,1,'C',false);
+		$pdf->Cell($width_cell[1],10,'Rs. '.$details->sum_monthly_contribution,1,1,'C',false);
 		$pdf->Cell($width_cell[0],10,'Amount in Words: ',1,0,'C',false);
-		$pdf->Cell($width_cell[1],10,$this->amountInWords((float)$details['amount']),1,1,'C',false);
+		$pdf->Cell($width_cell[1],10,$this->amountInWords((float)$details->sum_monthly_contribution),1,1,'C',false);
 		$pdf->Cell($width_cell[2],10,'Towards:  '.$donated_for,1,1,'L',false);
 	
 		$pdf->SetXY(10,255);
@@ -238,7 +249,7 @@ class Eightyg extends MY_Controller {
 		if (!is_dir($file_path)) {
 			mkdir($file_path, 0777, TRUE);
 		}
-		$file_name  =   $name.$date.$trans_id.'.pdf';
+		$file_name  =   $details->receipt_no.'.pdf';
 		$file_path  .=  '/'.$file_name;
 		$pdf->output('F',$file_path);
 		return $file_name;
@@ -279,5 +290,9 @@ class Eightyg extends MY_Controller {
 		$get_paise = ($amount_after_decimal > 0) ? "And " . ($change_words[$amount_after_decimal / 10] . "
 	   " . $change_words[$amount_after_decimal % 10]) . ' Paise' : '';
 		return ($implode_to_Rupees ? $implode_to_Rupees . 'Rupees ' : '') . $get_paise;
+	}
+
+	public function pdfemail () {
+		echo "pdf--email";
 	}
 }
