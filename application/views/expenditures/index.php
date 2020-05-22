@@ -6,44 +6,31 @@
               </div> -->
               <!-- /.card-header -->
               <div class="card-body">
-	<table id="customers">
+              <table class="table table-bordered">
 		<tr>
-            
-		
 			<th>Expenditure date</th>
-            <th>Donor_id</th>
-            <th>Area_id</th>
-            <th>nutrition_hygiene_kit</th>
+            <th>Donor</th>
+            <th>Area</th>
+            <th>nutrition hygiene kit</th>
             <th>meals</th>
-            <th>medical_equipment</th>
-            <th>sanitation_material</th>
-            <th>ppe_kits</th>
-            <th>amount_spent</th>
+            <th>medical equipment</th>
+            <th>sanitation material</th>
+            <th>ppe kits</th>
+            <th>amount spent</th>
             <th>Actions</th>
 </tr>
 <?php 
 foreach ($view_data as $key => $value) {
-	
-
-	 echo "<tr>
-	 	
-	 	<td>".date('d-m-Y', strtotime($value['expenditure_dt']))."</td>
-        <td>".$value['donor_id']."</td>
-        <td>".$value['area_id']."</td>
+	 echo "<tr><td>".date('d-m-Y', strtotime($value['expenditure_dt']))."</td>
+        <td>".$value['donor_name']."</td>
+        <td>".$value['area_name']."</td>
         <td>".$value['nutrition_hygiene_kit']."</td>
         <td>".$value['meals']."</td>
         <td>".$value['medical_equipment']."</td>
         <td>".$value['sanitation_material']."</td>
         <td>".$value['ppe_kits']."</td>
         <td>".$value['amount_spent']."</td>
-        <td>".anchor('expenditures/update/'.$value['expenditure_id'], 'edit', '')."</td>
-
-      
-
-
-
-	 </tr>";
-	# code...
+        <td>".anchor('expenditures/update/'.$value['expenditure_id'], 'edit', '')."</td></tr>";
 }
 ?>
 

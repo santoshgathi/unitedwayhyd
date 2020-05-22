@@ -24,7 +24,7 @@
                   <tbody>
                   <?php foreach($eightyg_data as $data) {
                       echo '<tr>';
-                      echo '<td>'.'</td>';
+                      echo '<td><input type="checkbox" name="eightyg_ids[]" value="'.$data->id.'"></td>';
                     echo '<td>'.$data->receipt_no.'</td>';
                     echo '<td>'.$data->donor_name.'</td>';
                     echo '<td>'.$data->pan_no.'</td>';

@@ -13,7 +13,7 @@ class Expenditures extends CI_Controller {
 		if(!$isUserLoggedIn) { 
             redirect('login'); 
 		}
-		$this->load->model('donordb');
+		$this->load->model('donor_model');
 		$this->load->model('expenditure_model');
     } 
 	
@@ -28,8 +28,8 @@ class Expenditures extends CI_Controller {
 
 	public function create() {
 		$this->headerData['page_title'] = 'Create Expenditure';
-		$this->viewData['donor_name']= $this->donordb->return_donors();
-		$this->viewData['area']=$this->donordb->return_area();
+		$this->viewData['donor_name']= $this->donor_model->return_donors();
+		$this->viewData['area']=$this->donor_model->return_area();
 
 		$this->form_validation->set_rules('expenditure_dt', 'Expenditure dt', 'required');
 		$this->form_validation->set_rules('donor_name', 'donor name', 'required');
@@ -66,8 +66,8 @@ class Expenditures extends CI_Controller {
 	public function update($expenditure_id) {
 		
 		$this->headerData['page_title'] = 'Update expenditures';
-		$this->viewData['donor_name']= $this->donordb->return_donors();
-		$this->viewData['area']=$this->donordb->return_area();
+		$this->viewData['donor_name']= $this->donor_model->return_donors();
+		$this->viewData['area']=$this->donor_model->return_area();
 		$this->viewData['exp_details'] = $this->expenditure_model->get_details_exp($expenditure_id);
 		
 		$this->form_validation->set_rules('expenditure_dt', 'Expenditure dt', 'required');

@@ -27,6 +27,13 @@ class Eightyg extends MY_Controller {
 		$this->viewData['eightyg_data'] = $this->eightyg_model->get_entries('rows', $page, $config['per_page']);
 		$this->pagination->initialize($config);
 		$this->viewData['paginationSummary']  = $this->pagination_summary($page, $config['per_page'], $config['total_rows']);
+
+		$eightyg_ids = $this->input->post('eightyg_ids');
+		for ($i=0; $i < sizeof($eightyg_ids); $i++) { 
+			$data = array('student_id' => $eightyg_ids[$i]);
+			$this->generatepdf('added_student',$data);
+		}
+
 		$this->load->view('header', $this->headerData);
 		$this->load->view('eightyg/index', $this->viewData);
 		$this->load->view('footer');

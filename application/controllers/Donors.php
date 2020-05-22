@@ -13,14 +13,12 @@ class Donors extends CI_Controller {
 		if(!$isUserLoggedIn) { 
             redirect('login'); 
 		} 
-		$this->load->model('donordb');
+		$this->load->model('donor_model');
     } 
 	
 	public function index() {
 		
-		$this->load->model('donordb');
-		
-		$this->viewData['view_data']=$this->donordb->return_users();
+		$this->viewData['view_data']=$this->donor_model->return_users();
 		$this->headerData['page_title'] = 'List Donors';
 		$this->load->view('header', $this->headerData);
 		$this->load->view('donors/index', $this->viewData);
@@ -43,7 +41,7 @@ class Donors extends CI_Controller {
 				'donor_name'=>$donorname,
 				'donor_phone'=>$pho
 			];			
-			$message=$this->donordb->add('donors',$data);
+			$message=$this->donor_model->add('donors',$data);
 			redirect('donors');
 		}
 	}
@@ -51,8 +49,7 @@ class Donors extends CI_Controller {
 	public function update($donor_id) {
 		
 		$this->headerData['page_title'] = 'Update Donors';
-		$this->load->model('donordb');
-		$this->viewData['donor_details'] = $this->donordb->get_details($donor_id);
+		$this->viewData['donor_details'] = $this->donor_model->get_details($donor_id);
 		
 		$this->form_validation->set_rules('donor_name', 'Donor_name', 'required');
 		$this->form_validation->set_rules('phone_number', 'Phone_number', 'required');
@@ -67,7 +64,7 @@ class Donors extends CI_Controller {
 		
 			$data['donor_name'] = $this->input->post('donor_name');
 			$data['donor_phone'] = $this->input->post('phone_number');
-			$this->viewData['donor_details'] = $this->donordb->update_entry($data,$donor_id);
+			$this->viewData['donor_details'] = $this->donor_model->update_entry($data,$donor_id);
 			$this->session->set_flashdata('success', 'Updated Successfully');
             redirect('donors');
         }
