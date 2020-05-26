@@ -13,6 +13,11 @@
             <?php echo $error; ?>
             </div>
             <?php endif; ?>
+            <?php if(isset($receipts_error)): ?>
+            <div class="alert alert-danger" role="alert">
+            <?php echo $receipts_error; ?>
+            </div>
+            <?php endif; ?>
             <?php echo validation_errors(); ?>
               <?php echo form_open_multipart('eightyg/do_upload');?>
                 <div class="card-body"> 

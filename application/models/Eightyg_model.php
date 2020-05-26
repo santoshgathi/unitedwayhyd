@@ -42,4 +42,10 @@ class Eightyg_model extends CI_Model {
         $row = $query->row();
         return $row;
     }
+
+    public function validate_entry($receipt_no) {
+        $this->db->from('80guploads');
+        $this->db->where('receipt_no', $receipt_no);
+        return $this->db->count_all_results();;
+    }
 }

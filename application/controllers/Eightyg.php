@@ -94,15 +94,28 @@ class Eightyg extends MY_Controller {
 			array_shift($data);
 			$eightyg_data = $data[0];
 			array_shift($eightyg_data);
-			//echo '<pre>';print_r($eightyg_data);echo '</pre>';			
-			foreach($eightyg_data as $k => $v) {
-				//print_r($v);
-				$data = array('receipt_no'=>$v['A'], 'donor_name'=>$v['C'], 'pan_no'=>$v['D'], 'email'=>$v['E'], 'sum_monthly_contribution'=> str_replace(",", "", $v['F']), 'trns_date'=>date('Y-m-d H:i:s', strtotime($v['H'])), 'ref_details'=>$v['I'], 'bank'=>$v['J']);
-				//print_r($data);
-				$this->eightyg_model->insert_entry($data);
+			//echo '<pre>';print_r($eightyg_data);echo '</pre>';
+			// check records whether already exists
+			$count_receipts = 0;
+			$this->viewData['receipts_error'] = 'Records Alreadt exists : ';
+			foreach($eightyg_data as $k => $v) {		
+				$result = $this->eightyg_model->validate_entry($v['A']);
+				if($result) {
+					$count_receipts = $count_receipts + (int)$result;
+					$this->viewData['receipts_error'] .= $v['A'].', ';
+				}					
 			}
-			$this->session->set_flashdata('success', 'Inserted Successfully');
-			redirect('eightyg');
+			// insert records
+			if($count_receipts == 0) {
+				foreach($eightyg_data as $k => $v) {
+					//print_r($v);
+					$data = array('receipt_no'=>$v['A'], 'donor_name'=>$v['C'], 'pan_no'=>$v['D'], 'email'=>$v['E'], 'sum_monthly_contribution'=> str_replace(",", "", $v['F']), 'trns_date'=>date('Y-m-d H:i:s', strtotime($v['H'])), 'ref_details'=>$v['I'], 'bank'=>$v['J']);
+					//print_r($data);
+					$this->eightyg_model->insert_entry($data);			
+				}
+				$this->session->set_flashdata('success', 'Inserted Successfully');
+				('eightyg');
+			}
 		}
 		$this->load->view('header', $this->headerData);
 		$this->load->view('eightyg/fileupload', $this->viewData);
@@ -254,12 +267,16 @@ class Eightyg extends MY_Controller {
 		$pdf->Cell(50,0,'Donation exempt under section 80G of the Income Tax Act 1961 vide regd No');
 		$pdf->SetXY(90,345);
 		$pdf->Cell(50,0,'F. NO. DIT (E)/HYD/80G/34(04)/11-12; Dated: 20/10/2011');
-		$file_path  =  '80g_certificates/';
+		$file_path  =  '80g_certificates';
 		if (!is_dir($file_path)) {
 			mkdir($file_path, 0777, TRUE);
 		}
 		$file_name  =   $details->receipt_no.'.pdf';
 		$file_path  .=  '/'.$file_name;
+		// if file exists delete it
+		if (file_exists($file_path)) {
+			unlink($file_path);
+		}
 		$pdf->output('F',$file_path);
 		return $file_name;
 	}
