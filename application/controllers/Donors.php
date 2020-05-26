@@ -27,7 +27,7 @@ class Donors extends CI_Controller {
     
     public function create() {
 		$this->headerData['page_title'] = 'Create Donor';		
-		$this->form_validation->set_rules('Donorname', 'Donorname', 'required'); 
+		$this->form_validation->set_rules('Donorname', 'Donorname', 'required|is_unique[donors.donor_name]'); 
         $this->form_validation->set_rules('Pho', 'Phone number', 'required');     
 		if ($this->form_validation->run() === FALSE) {			
 			$this->load->view('header', $this->headerData);

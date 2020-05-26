@@ -1,7 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH .'third_party/fpdf/fpdf.php');
-require(APPPATH .'third_party/phpmailer/PHPMailerAutoload.php');
+require(APPPATH .'third_party/phpmailer/PHPMailerAutoload.php');;
+//Import PHPMailer classes into the global namespace
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\SMTP;
 
 class Eightyg extends MY_Controller {
 
@@ -30,15 +33,19 @@ class Eightyg extends MY_Controller {
 		//print_r($this->viewData['eightyg_data']);
 		$this->pagination->initialize($config);
 		$this->viewData['paginationSummary']  = $this->pagination_summary($page, $config['per_page'], $config['total_rows']);
+
+		$this->viewData['email_status'] = '';
 		$this->form_validation->set_rules('eightysubmit', 'Form submit', 'required');
 		if ($this->form_validation->run() === FALSE) {
 		} else {
 			$eightyg_ids = $this->input->post('eightyg_ids');
 			//print_r($eightyg_ids);
-			for ($i=0; $i < sizeof($eightyg_ids); $i++) { 
+			$count_ids = count((array)$eightyg_ids);
+			for ($i=0; $i < $count_ids; $i++) { 
 				//print_r($this->viewData['eightyg_data'][$i]);
 				$this->generate80G_PDF($this->viewData['eightyg_data'][$i]);
-				$this->sendemail($this->viewData['eightyg_data'][$i]);
+				$email_status = $this->sendemail($this->viewData['eightyg_data'][$i]);
+				$this->viewData['email_status'] = $this->viewData['email_status'].$email_status;
 			}
 		}		
 
@@ -329,7 +336,7 @@ web: www.unitedwayhyderabad.org";
 		// 0 = off (for production use)
 		// 1 = client messages
 		// 2 = client and server messages
-		$mail->SMTPDebug = 2;
+		$mail->SMTPDebug = 0;
 
 		//Ask for HTML-friendly debug output
 		$mail->Debugoutput = 'html';
@@ -356,22 +363,21 @@ web: www.unitedwayhyderabad.org";
 		$mail->Password = "<>3rPEr421";
 
 		//Set who the message is to be sent from
-		$mail->setFrom('admin@unitedwayhyderabad.org', 'UWH');
+		$mail->setFrom('noreply@unitedwayhyderabad.org', 'UWH');
 
 		//Set an alternative reply-to address
-		$mail->addReplyTo('admin@unitedwayhyderabad.org', 'First Last');
+		$mail->addReplyTo('admin@unitedwayhyderabad.org', 'UWH');
 
-		$mail->addCC('adityanathc@gathi.com');
+		//$mail->addCC('suresh@unitedwayhyderabad.org');
 
 		//Set who the message is to be sent to
-		$mail->addAddress('suresh@unitedwayhyderabad.org', 'suresh');
-
+		$mail->addAddress($details->email, $details->donor_name);
+		
 		//Set the subject line
 		$mail->Subject = "Thank you for your Donation to United Way of Hyderabad";
 
 		//Read an HTML message body from an external file, convert referenced images to embedded,
 		//convert HTML into a basic plain-text alternative body
-		//$mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__));
 		$mail->msgHTML($message);
 
 		//Replace the plain text body with one created manually
@@ -380,17 +386,22 @@ web: www.unitedwayhyderabad.org";
 		//Attach an image file
 		$mail->addAttachment('80g_certificates/'.$details->receipt_no.'.pdf');
 
+		$email_status = '';
+
 		//send the message, check for errors
 		if (!$mail->send()) {
 			echo "Mailer Error: " . $mail->ErrorInfo;
 		} else {
-			echo "Message sent!";
+			$email_status =  $email_status."Message sent!";
 			//Section 2: IMAP
-			//Uncomment these to save your message in the 'Sent Mail' folder.
-			if ($this->save_mail($mail)) {
-				echo "Message saved!";
-			}
+			//$path = "{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail";
+			//Tell your server to open an IMAP connection using the same username and password as you used for SMTP
+			//$imapStream = imap_open($path, $mail->Username, $mail->Password);
+			//$result = imap_append($imapStream, $path, $mail->getSentMIMEMessage());
+			//imap_close($imapStream);
+			//$email_status =  $email_status."Message saved status : ".$result;
 		}
+		return $email_status;
 	}
 
 	//Section 2: IMAP

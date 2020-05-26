@@ -25,7 +25,7 @@ class Areas extends CI_Controller {
 
 	public function create() {
 		$this->headerData['page_title'] = 'Create Area';
-		$this->form_validation->set_rules('newArea', 'Area Name', 'required');      
+		$this->form_validation->set_rules('newArea', 'Area Name', 'required|is_unique[areas.area_name]');      
         
         if ($this->form_validation->run() === FALSE) {
             $this->load->view('header', $this->headerData);
