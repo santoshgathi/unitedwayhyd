@@ -24,12 +24,7 @@
                   
                   <div class="form-group">
                     <label for="exampleInputFile">80G file</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="userfile" required>
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                      </div>
-                    </div>
+                    <input type="file" class="form-control-file" name="userfile" required>
                   </div>
                   
                 </div>
