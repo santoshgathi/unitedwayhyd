@@ -115,16 +115,16 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-              <?php echo anchor('eightyg/fileupload','<i class="far fa-circle nav-icon"></i><p>Upload</p>', 'class="nav-link"'); ?>
+              <?php echo anchor('eightyg/fileupload','<i class="fas fa-upload nav-icon"></i><p>Upload</p>', 'class="nav-link"'); ?>
               </li>
               <li class="nav-item">
-              <?php echo anchor('eightyg','<i class="far fa-circle nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
+              <?php echo anchor('eightyg','<i class="fas fa-list nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
               </li>
             </ul>
           </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
+              <i class="nav-icon fas fa-user-friends"></i>
               <p>
                 Donors
                 <i class="right fas fa-angle-left"></i>
@@ -132,16 +132,16 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-              <?php echo anchor('donors/create','<i class="far fa-circle nav-icon"></i><p>Add New</p>', 'class="nav-link"'); ?>
+              <?php echo anchor('donors/create','<i class="fas fa-plus-square nav-icon"></i><p>Add New</p>', 'class="nav-link"'); ?>
               </li>
               <li class="nav-item">
-              <?php echo anchor('donors','<i class="far fa-circle nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
+              <?php echo anchor('donors','<i class="fas fa-list nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
               </li>
             </ul>
           </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
+              <i class="nav-icon fas fa-map-marker-alt"></i>
               <p>
                 Areas
                 <i class="right fas fa-angle-left"></i>
@@ -149,16 +149,16 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-              <?php echo anchor('areas/create','<i class="far fa-circle nav-icon"></i><p>Add New</p>', 'class="nav-link"'); ?>
+              <?php echo anchor('areas/create','<i class="fas fa-plus-square nav-icon"></i><p>Add New</p>', 'class="nav-link"'); ?>
               </li>
               <li class="nav-item">
-              <?php echo anchor('areas','<i class="far fa-circle nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
+              <?php echo anchor('areas','<i class="fas fa-list nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
               </li>
             </ul>
           </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
+              <i class="nav-icon fas fa-money-bill-alt"></i>
               <p>
               Expenditures
                 <i class="right fas fa-angle-left"></i>
@@ -166,10 +166,10 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-              <?php echo anchor('expenditures/create','<i class="far fa-circle nav-icon"></i><p>Add New</p>', 'class="nav-link"'); ?>
+              <?php echo anchor('expenditures/create','<i class="fas fa-plus-square nav-icon"></i><p>Add New</p>', 'class="nav-link"'); ?>
               </li>
               <li class="nav-item">
-              <?php echo anchor('expenditures','<i class="far fa-circle nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
+              <?php echo anchor('expenditures','<i class="fas fa-list nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
               </li>
             </ul>
           </li>        
