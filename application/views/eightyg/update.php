@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">trns date</label>
-                    <?php echo form_input('trns_date', $eightyg_details->trns_date, 'class="form-control"'); ?>
+                    <?php echo form_input('trns_date', date('Y-m-d', strtotime($eightyg_details->trns_date)), 'class="form-control" id="trns_date"'); ?>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Ref details</label>

@@ -12,8 +12,8 @@
               <?php echo form_open('Expenditures/create'); ?>
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Date</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Select Date" name="expenditure_dt">
+                    <label for="expenditure_dt">Date</label>
+                    <input type="text" class="form-control" id="expenditure_dt" placeholder="Select Date" name="expenditure_dt">
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">Donor</label>
