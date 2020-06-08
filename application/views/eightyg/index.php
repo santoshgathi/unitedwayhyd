@@ -14,12 +14,11 @@
                     <th></th>
                       <th>receipt</th>
                       <th>donor</th>
-                      <th>pan no</th>
                       <th>email</th>
-                      <th>sum monthly</th>
                       <th>date</th>
-                      <th>ref details</th>
                       <th>bank</th>
+                      <th>80G File</th>
+                      <th>Email Sent</th>
                       <th>actions</th>
                     </tr>
                   </thead>
@@ -29,13 +28,80 @@
                       echo '<td><input type="checkbox" name="eightyg_ids[]" value="'.$k.'"></td>';
                     echo '<td>'.$data->receipt_no.'</td>';
                     echo '<td>'.$data->donor_name.'</td>';
-                    echo '<td>'.$data->pan_no.'</td>';
                     echo '<td>'.$data->email.'</td>';
-                    echo '<td>'.$data->sum_monthly_contribution.'</td>';
                     echo '<td>'.date('d-m-Y', strtotime($data->trns_date)).'</td>';
-                    echo '<td>'.$data->ref_details.'</td>';
                     echo '<td>'.$data->bank.'</td>';
-                    echo '<td>'.anchor('eightyg/update/'.$data->id, 'edit', '').'</td>';
+                    // $file_status = 'NA';
+                    // if(get_file_info('80g_certificates/'.$data->receipt_no.'.pdf')) {
+                    //   $file_status = '<a href="'.base_url('80g_certificates/'.$data->receipt_no.'.pdf').'" target="_blank">80G Pdf</a>';
+                    // }
+                    echo '<td>'.$data->pdf_80g.'</td>';
+                    echo '<td>'.$data->sent_email.'</td>';
+                    echo '<td>'.anchor('eightyg/update/'.$data->id, 'edit', 'class="btn btn-primary btn-sm mr-1"');
+                    echo '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eightyg_'.$data->id.'">Details</button>';
+                  echo   '<div class="modal fade" id="eightyg_'.$data->id.'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">                      
+                      <div class="modal-body">
+                      <table class="table table-sm">
+                      <tbody>
+                      <tr>
+                          <th scope="row">receipt no</th>
+                          <td>'.$data->receipt_no.'</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">donor name</th>
+                          <td>'.$data->donor_name.'</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">PAN No</th>
+                          <td>'.$data->pan_no.'</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Email</th>
+                          <td>'.$data->email.'</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">sum monthly contribution</th>
+                          <td>'.$data->sum_monthly_contribution.'</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Date</th>
+                          <td>'.date('d-m-Y', strtotime($data->trns_date)).'</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Ref Details</th>
+                          <td>'.$data->ref_details.'</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Bank</th>
+                          <td>'.$data->bank.'</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Cause for donation</th>
+                          <td>'.$data->donation_cause.'</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Address</th>
+                          <td>'.$data->address1.'</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Address 2</th>
+                          <td>'.$data->address2.'</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">City</th>
+                          <td>'.$data->city.'</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div></td>';
                     echo '</tr>';
                   } ?>
                   </tbody>

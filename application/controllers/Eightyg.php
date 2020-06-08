@@ -25,7 +25,7 @@ class Eightyg extends MY_Controller {
 		$this->headerData['current_url'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		$this->load->library('pagination');
 		$this->headerData['page_title'] = 'List 80G';
-		$this->viewData['size'] = $size = $this->input->get('size') ? $this->input->get('size') : 3;
+		$this->viewData['size'] = $size = $this->input->get('size') ? $this->input->get('size') : 10;
 		$page = $this->input->get('per_page') ? $this->input->get('per_page') : 0;
 		$config = $this->pagination_config_array('/index.php/eightyg/index/', $size);
 		$config['total_rows'] = $this->eightyg_model->get_entries('count', 0, 0);
@@ -38,6 +38,8 @@ class Eightyg extends MY_Controller {
 		$this->form_validation->set_rules('eightysubmit', 'Form submit', 'required');
 		if ($this->form_validation->run() === FALSE) {
 		} else {
+			// form submit
+			// get the check boxes ids
 			$eightyg_ids = $this->input->post('eightyg_ids');
 			//print_r($eightyg_ids);
 			$count_ids = count((array)$eightyg_ids);
@@ -109,12 +111,27 @@ class Eightyg extends MY_Controller {
 			if($count_receipts == 0) {
 				foreach($eightyg_data as $k => $v) {
 					//print_r($v);
-					$data = array('receipt_no'=>$v['A'], 'donor_name'=>$v['C'], 'pan_no'=>$v['D'], 'email'=>$v['E'], 'sum_monthly_contribution'=> str_replace(",", "", $v['F']), 'trns_date'=>date('Y-m-d H:i:s', strtotime($v['H'])), 'ref_details'=>$v['I'], 'bank'=>$v['J']);
+					$excel_receipt_no = $v['A'];
+					$excel_donor_name = $v['C'];
+					$excel_address1 = $v['D'];
+					$excel_address2 = $v['E'];
+					$excel_city = $v['F'];
+					$excel_pan_no = $v['G'];
+					$excel_email = $v['H'];
+					$excel_sum_monthly_contribution=str_replace(",", "", $v['I']);
+					$excel_amount_in_words = $v['J'];
+					$excel_trns_date = date('Y-m-d H:i:s', strtotime($v['K']));
+					$excel_ref_details = $v['L'];
+					$excel_bank = $v['M'];
+					$excel_donation_cause = $v['N'];
+					$created_on = date('Y-m-d H:i:s');
+
+					$excel_data = array('receipt_no' => $excel_receipt_no, 'donor_name' => $excel_donor_name, 'pan_no'=> $excel_pan_no, 'email' => $excel_email, 'sum_monthly_contribution' => $excel_sum_monthly_contribution, 'amount_in_words' => $excel_amount_in_words, 'trns_date' => $excel_trns_date, 'ref_details' => $excel_ref_details, 'bank' => $excel_bank, 'pdf_80g' => 'NA', 'address1' => $excel_address1, 'address2' => $excel_address2, 'city' => $excel_city, 'donation_cause' => $excel_donation_cause, 'sent_email' => 'No', 'created_on' => $created_on);
 					//print_r($data);
-					$this->eightyg_model->insert_entry($data);			
+					$this->eightyg_model->insert_entry($excel_data);			
 				}
 				$this->session->set_flashdata('success', 'Inserted Successfully');
-				('eightyg');
+				redirect('eightyg');
 			}
 		}
 		$this->load->view('header', $this->headerData);
@@ -166,13 +183,8 @@ class Eightyg extends MY_Controller {
 	// }
 	
 	public function generate80G_PDF($details) {
-		$city = '';
-		$state = '';
-		$trans_id = $details->ref_details;
-		$donated_for='Donation towards COVID-19 Relief Work';
-		$date   =   date('d-M-Y', strtotime($details->trns_date));
+		$trns_date   =   date('d-M-Y', strtotime($details->trns_date));
 		//$name   =   $details['firstname'].'_'.$details['lastname'];
-		$name   =   $details->donor_name;
 		$pdf    =   new FPDF();
 		$pdf->AddPage('P','A3');
 		$pdf->SetTitle('80g Certificate');
@@ -188,16 +200,16 @@ class Eightyg extends MY_Controller {
 		$pdf->Cell(50,0,'Hyderabad -500034');
 		$pdf->setFont('Arial','B',12);
 		$pdf->SetXY(10,70);
-		$pdf->Cell(50,0,'Ref No:  '.$trans_id);
+		$pdf->Cell(50,0,'Ref No:  '.$details->ref_details);
 		$pdf->SetXY(220,70);
-		$pdf->Cell(50,0,'Receipt Date: '.$date);
+		$pdf->Cell(50,0,'Receipt Date: '.$trns_date);
 		$pdf->setFont('Arial','',12);
 		$pdf->SetXY(10,80);
-		$pdf->Cell(50,0,$name);
+		$pdf->Cell(50,0,$details->donor_name);
 		$pdf->SetXY(10,85);
-		$pdf->Cell(50,0,$city);
+		$pdf->Cell(50,0,$details->address1);
 		$pdf->SetXY(10,90);
-		$pdf->Cell(50,0,$state);
+		$pdf->Cell(50,0,$details->city);
 		$pdf->setFont('Arial','B',12);
 		$pdf->SetXY(10,95);
 		$pdf->Cell(50,0,'PAN: '.$details->pan_no);
@@ -247,12 +259,12 @@ class Eightyg extends MY_Controller {
 		$pdf->setFont('Arial','B',13);
 		$pdf->Cell($width_cell[2],10,'80G Certificate',1,1,'C',false);
 		$pdf->setFont('Arial','',12);
-		$pdf->Cell($width_cell[2],10,'We confirm the receipt of donation from '.$name.'  Vide Payu Transfer No: '.$trans_id.' Dated: '.$date,1,1,'C',false);
+		$pdf->Cell($width_cell[2],10,'We confirm the receipt of donation from '.$details->donor_name.' Transfer No: '.$details->ref_details.' Dated: '.$trns_date,1,1,'C',false);
 		$pdf->Cell($width_cell[0],10,'Total Donation Received',1,0,'C',false);
 		$pdf->Cell($width_cell[1],10,'Rs. '.$details->sum_monthly_contribution,1,1,'C',false);
 		$pdf->Cell($width_cell[0],10,'Amount in Words: ',1,0,'C',false);
-		$pdf->Cell($width_cell[1],10,$this->amountInWords((float)$details->sum_monthly_contribution),1,1,'C',false);
-		$pdf->Cell($width_cell[2],10,'Towards:  '.$donated_for,1,1,'L',false);
+		$pdf->Cell($width_cell[1],10,$details->amount_in_words,1,1,'C',false);
+		$pdf->Cell($width_cell[2],10,'Towards:  '.$details->donation_cause,1,1,'L',false);
 	
 		$pdf->SetXY(10,255);
 		$pdf->Cell(50,0,'Receipt is valid subject to the realization of Cheque/ECS/Credit card Only');
@@ -279,43 +291,6 @@ class Eightyg extends MY_Controller {
 		}
 		$pdf->output('F',$file_path);
 		return $file_name;
-	}
-	
-	public function amountInWords($amount) {
-		$amount_after_decimal = round($amount - ($num = floor($amount)), 2) * 100;
-		// Check if there is any number after decimal
-		$amt_hundred = null;
-		$count_length = strlen($num);
-		$x = 0;
-		$string = array();
-		$change_words = array(0 => '', 1 => 'One', 2 => 'Two',
-			3 => 'Three', 4 => 'Four', 5 => 'Five', 6 => 'Six',
-			7 => 'Seven', 8 => 'Eight', 9 => 'Nine',
-			10 => 'Ten', 11 => 'Eleven', 12 => 'Twelve',
-			13 => 'Thirteen', 14 => 'Fourteen', 15 => 'Fifteen',
-			16 => 'Sixteen', 17 => 'Seventeen', 18 => 'Eighteen',
-			19 => 'Nineteen', 20 => 'Twenty', 30 => 'Thirty',
-			40 => 'Forty', 50 => 'Fifty', 60 => 'Sixty',
-			70 => 'Seventy', 80 => 'Eighty', 90 => 'Ninety');
-		$here_digits = array('', 'Hundred','Thousand','Lakh', 'Crore');
-		while( $x < $count_length ) {
-			$get_divider = ($x == 2) ? 10 : 100;
-			$amount = floor($num % $get_divider);
-			$num = floor($num / $get_divider);
-			$x += $get_divider == 10 ? 1 : 2;
-			if ($amount) {
-				$add_plural = (($counter = count($string)) && $amount > 9) ? 's' : null;
-				$amt_hundred = ($counter == 1 && $string[0]) ? ' and ' : null;
-				$string [] = ($amount < 21) ? $change_words[$amount].' '. $here_digits[$counter]. $add_plural.'
-		   '.$amt_hundred:$change_words[floor($amount / 10) * 10].' '.$change_words[$amount % 10]. '
-		   '.$here_digits[$counter].$add_plural.' '.$amt_hundred;
-			}
-			else $string[] = null;
-		}
-		$implode_to_Rupees = implode('', array_reverse($string));
-		$get_paise = ($amount_after_decimal > 0) ? "And " . ($change_words[$amount_after_decimal / 10] . "
-	   " . $change_words[$amount_after_decimal % 10]) . ' Paise' : '';
-		return ($implode_to_Rupees ? $implode_to_Rupees . 'Rupees ' : '') . $get_paise;
 	}
 
 	public function sendemail($details) {
@@ -437,6 +412,45 @@ web: www.unitedwayhyderabad.org";
 		imap_close($imapStream);
 
 		return $result;
+	}
+
+	
+	
+	public function amountInWords($amount) {
+		$amount_after_decimal = round($amount - ($num = floor($amount)), 2) * 100;
+		// Check if there is any number after decimal
+		$amt_hundred = null;
+		$count_length = strlen($num);
+		$x = 0;
+		$string = array();
+		$change_words = array(0 => '', 1 => 'One', 2 => 'Two',
+			3 => 'Three', 4 => 'Four', 5 => 'Five', 6 => 'Six',
+			7 => 'Seven', 8 => 'Eight', 9 => 'Nine',
+			10 => 'Ten', 11 => 'Eleven', 12 => 'Twelve',
+			13 => 'Thirteen', 14 => 'Fourteen', 15 => 'Fifteen',
+			16 => 'Sixteen', 17 => 'Seventeen', 18 => 'Eighteen',
+			19 => 'Nineteen', 20 => 'Twenty', 30 => 'Thirty',
+			40 => 'Forty', 50 => 'Fifty', 60 => 'Sixty',
+			70 => 'Seventy', 80 => 'Eighty', 90 => 'Ninety');
+		$here_digits = array('', 'Hundred','Thousand','Lakh', 'Crore');
+		while( $x < $count_length ) {
+			$get_divider = ($x == 2) ? 10 : 100;
+			$amount = floor($num % $get_divider);
+			$num = floor($num / $get_divider);
+			$x += $get_divider == 10 ? 1 : 2;
+			if ($amount) {
+				$add_plural = (($counter = count($string)) && $amount > 9) ? 's' : null;
+				$amt_hundred = ($counter == 1 && $string[0]) ? ' and ' : null;
+				$string [] = ($amount < 21) ? $change_words[$amount].' '. $here_digits[$counter]. $add_plural.'
+		   '.$amt_hundred:$change_words[floor($amount / 10) * 10].' '.$change_words[$amount % 10]. '
+		   '.$here_digits[$counter].$add_plural.' '.$amt_hundred;
+			}
+			else $string[] = null;
+		}
+		$implode_to_Rupees = implode('', array_reverse($string));
+		$get_paise = ($amount_after_decimal > 0) ? "And " . ($change_words[$amount_after_decimal / 10] . "
+	   " . $change_words[$amount_after_decimal % 10]) . ' Paise' : '';
+		return ($implode_to_Rupees ? $implode_to_Rupees . 'Rupees ' : '') . $get_paise;
 	}
 
 	public function pdfemail () {
