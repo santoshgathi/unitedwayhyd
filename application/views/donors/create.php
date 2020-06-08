@@ -20,6 +20,14 @@
                     <label for="exampleInputPassword1">Phone</label>
                     <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Phone No" name="Pho">
                   </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Email</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Email" name="email">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Address</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Address" name="address">
+                  </div>
                 </div>
                 <!-- /.card-body -->
 

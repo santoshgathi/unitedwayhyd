@@ -34,12 +34,12 @@ class Donors extends CI_Controller {
 			$this->load->view('donors/create', $this->viewData);
 			$this->load->view('footer');
         } else {
-			$donorname = $this->input->post('Donorname');
-			$pho = $this->input->post('Pho');
-			$ph1=$pho;
+			
 			$data=[
-				'donor_name'=>$donorname,
-				'donor_phone'=>$pho
+				'donor_name'=> $this->input->post('Donorname'),
+				'donor_phone'=> $this->input->post('Pho'),
+				'email' => $this->input->post('email'),
+				'address' => $this->input->post('address')
 			];			
 			$message=$this->donor_model->add('donors',$data);
 			redirect('donors');

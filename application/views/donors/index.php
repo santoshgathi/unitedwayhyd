@@ -6,11 +6,10 @@
               </div> -->
               <!-- /.card-header -->
               <div class="card-body">
-	<table class="table table-bordered">
+	<table class="table table-bordered table-sm">
 		<tr>
-			<th>id</th>
 			<th>Donorname</th>
-			<th>Phno</th>
+			<th>Phno</th><th>Email</th><th>Address</th>
 			<th>Actions</th>
 </tr>
 <?php 
@@ -18,9 +17,8 @@ foreach ($view_data as $key => $value) {
 	
 
 	 echo "<tr>
-	 	<td>".$value['donor_id']."</td>
 	 	<td>".$value['donor_name']."</td>
-		 <td>".$value['donor_phone']."</td>
+		 <td>".$value['donor_phone']."</td><td>".$value['email']."</td><td>".$value['address']."</td>
 		<td>".anchor('donors/update/'.$value['donor_id'], 'edit', '')."</td>
 
 	 </tr>";
