@@ -31,11 +31,11 @@
                     echo '<td>'.$data->email.'</td>';
                     echo '<td>'.date('d-m-Y', strtotime($data->trns_date)).'</td>';
                     echo '<td>'.$data->bank.'</td>';
-                    // $file_status = 'NA';
-                    // if(get_file_info('80g_certificates/'.$data->receipt_no.'.pdf')) {
-                    //   $file_status = '<a href="'.base_url('80g_certificates/'.$data->receipt_no.'.pdf').'" target="_blank">80G Pdf</a>';
-                    // }
-                    echo '<td>'.$data->pdf_80g.'</td>';
+                    $file_status = 'NA';
+                    if(get_file_info('80g_certificates/'.$data->pdf_80g)) {
+                      $file_status = '<a href="'.base_url('80g_certificates/'.$data->pdf_80g).'" target="_blank">80G Pdf</a>';
+                    }
+                    echo '<td>'.$data->file_status.'</td>';
                     echo '<td>'.$data->sent_email.'</td>';
                     echo '<td>'.anchor('eightyg/update/'.$data->id, 'edit', 'class="btn btn-primary btn-sm mr-1"');
                     echo '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eightyg_'.$data->id.'">Details</button>';

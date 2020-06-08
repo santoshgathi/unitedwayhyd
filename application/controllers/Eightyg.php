@@ -45,9 +45,13 @@ class Eightyg extends MY_Controller {
 			$count_ids = count((array)$eightyg_ids);
 			for ($i=0; $i < $count_ids; $i++) { 
 				//print_r($this->viewData['eightyg_data'][$i]);
-				$this->generate80G_PDF($this->viewData['eightyg_data'][$i]);
+				$file_80g = $this->generate80G_PDF($this->viewData['eightyg_data'][$i]);				
+				$this->eightyg_model->update_80g_file_status($this->viewData['eightyg_data'][$i]->id,$file_80g);
 				$email_status = $this->sendemail($this->viewData['eightyg_data'][$i]);
-				$this->viewData['email_status'] = $this->viewData['email_status'].$email_status;
+				if($email_status) {
+					$this->eightyg_model->update_80g_email_status($this->viewData['eightyg_data'][$i]->id);
+					$this->viewData['email_status'] = 'Email Sent';
+				}				
 			}
 		}		
 
@@ -378,13 +382,13 @@ web: www.unitedwayhyderabad.org";
 		//Attach an image file
 		$mail->addAttachment('80g_certificates/'.$details->receipt_no.'.pdf');
 
-		$email_status = '';
+		$email_status = false;
 
 		//send the message, check for errors
 		if (!$mail->send()) {
 			echo "Mailer Error: " . $mail->ErrorInfo;
 		} else {
-			$email_status =  $email_status."Message sent!";
+			$email_status =  true;
 			//Section 2: IMAP
 			//$path = "{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail";
 			//Tell your server to open an IMAP connection using the same username and password as you used for SMTP

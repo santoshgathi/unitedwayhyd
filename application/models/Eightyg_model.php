@@ -43,9 +43,22 @@ class Eightyg_model extends CI_Model {
         return $row;
     }
 
-    public function validate_entry($receipt_no) {
+    public function validate_entry($receipt_no)
+    {
         $this->db->from('80guploads');
         $this->db->where('receipt_no', $receipt_no);
         return $this->db->count_all_results();;
+    }
+
+    public function update_80g_file_status ($egithyg_id, $file_80g) 
+    {
+        $this->db->where('id', $egithyg_id);
+        $this->db->update('80guploads', array('pdf_80g' => $file_80g));
+    }
+
+    public function update_80g_email_status ($egithyg_id) 
+    {
+        $this->db->where('id', $egithyg_id);
+        $this->db->update('80guploads', array('sent_email' => 'yes'));
     }
 }
