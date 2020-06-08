@@ -175,7 +175,7 @@
           </li> 
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
+              <i class="nav-icon fas fa-clock"></i>
               <p>
               Appiontments
                 <i class="right fas fa-angle-left"></i>
@@ -184,7 +184,7 @@
             <ul class="nav nav-treeview">
              
               <li class="nav-item">
-              <?php echo anchor('appointments','<i class="far fa-circle nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
+              <?php echo anchor('appointments','<i class="fas fa-list nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
               </li>
             </ul>
           </li>           

@@ -110,6 +110,18 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer clearfix">
+              <div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="eightyg_action" id="inlineRadio1" value="gen80g" checked>
+  <label class="form-check-label" for="inlineRadio1">Generate 80G</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="eightyg_action" id="inlineRadio2" value="sendemail">
+  <label class="form-check-label" for="inlineRadio2">Send Email</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="radio" name="eightyg_action" id="inlineRadio3" value="gen80gsendemail">
+  <label class="form-check-label" for="inlineRadio3">Generate 80G + Send Email</label>
+</div>
               <button type="submit" name="insert" value="Insert" class="btn btn-primary">Submit</button>
                 <ul class="pagination pagination-sm m-0 float-right">
                   <?php echo $this->pagination->create_links();?>

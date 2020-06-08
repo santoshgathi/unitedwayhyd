@@ -36,22 +36,28 @@ class Eightyg extends MY_Controller {
 
 		$this->viewData['email_status'] = '';
 		$this->form_validation->set_rules('eightysubmit', 'Form submit', 'required');
+		$this->form_validation->set_rules('eightyg_action', 'Select Action', 'required');
 		if ($this->form_validation->run() === FALSE) {
 		} else {
 			// form submit
 			// get the check boxes ids
 			$eightyg_ids = $this->input->post('eightyg_ids');
+			$eightyg_action = $this->input->post('eightyg_action');
 			//print_r($eightyg_ids);
 			$count_ids = count((array)$eightyg_ids);
 			for ($i=0; $i < $count_ids; $i++) { 
 				//print_r($this->viewData['eightyg_data'][$i]);
-				$file_80g = $this->generate80G_PDF($this->viewData['eightyg_data'][$i]);				
-				$this->eightyg_model->update_80g_file_status($this->viewData['eightyg_data'][$i]->id,$file_80g);
-				$email_status = $this->sendemail($this->viewData['eightyg_data'][$i]);
-				if($email_status) {
-					$this->eightyg_model->update_80g_email_status($this->viewData['eightyg_data'][$i]->id);
-					$this->viewData['email_status'] = 'Email Sent';
+				if($eightyg_action === 'gen80g' || $eightyg_action === 'gen80gsendemail') {
+					$file_80g = $this->generate80G_PDF($this->viewData['eightyg_data'][$i]);
+					$this->eightyg_model->update_80g_file_status($this->viewData['eightyg_data'][$i]->id,$file_80g);
 				}				
+				if($eightyg_action === 'sendemail' || $eightyg_action === 'gen80gsendemail') {
+					$email_status = $this->sendemail($this->viewData['eightyg_data'][$i]);
+					if($email_status) {
+						$this->eightyg_model->update_80g_email_status($this->viewData['eightyg_data'][$i]->id);
+						$this->viewData['email_status'] = 'Email Sent';
+					}
+				}								
 			}
 		}		
 
