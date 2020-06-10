@@ -76,4 +76,9 @@ class Donor_model extends CI_Model{
         $this->db->update('expenditures', $data);
         //echo $this->db->last_query(); 
 	}
+
+	public function total_donors () {
+		$this->db->from('donors');
+        return $this->db->count_all_results();
+	}
 }

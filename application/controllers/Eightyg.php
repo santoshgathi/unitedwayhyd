@@ -304,6 +304,11 @@ class Eightyg extends MY_Controller {
 	}
 
 	public function sendemail($details) {
+		//check for file
+		if (!file_exists('80g_certificates/'.$details->pdf_80g)) {
+			return false;
+		}
+
 		$message ="Hello ".$details->donor_name.",<br/><br/>
 Thanks for your donation.<br/><br/>
 <strong>Your Donation Details:</strong><br/>

@@ -47,7 +47,7 @@ class Eightyg_model extends CI_Model {
     {
         $this->db->from('80guploads');
         $this->db->where('receipt_no', $receipt_no);
-        return $this->db->count_all_results();;
+        return $this->db->count_all_results();
     }
 
     public function update_80g_file_status ($egithyg_id, $file_80g) 
