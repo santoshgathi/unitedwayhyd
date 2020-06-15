@@ -59,6 +59,6 @@ class Eightyg_model extends CI_Model {
     public function update_80g_email_status ($egithyg_id) 
     {
         $this->db->where('id', $egithyg_id);
-        $this->db->update('80guploads', array('sent_email' => 'yes'));
+        $this->db->update('80guploads', array('sent_email' => 'Yes'));
     }
 }

@@ -18,7 +18,7 @@ class Donors extends CI_Controller {
 	
 	public function index() {
 		
-		$this->viewData['view_data']=$this->donor_model->return_users();
+		$this->viewData['view_data']=$this->donor_model->get_donors();
 		$this->headerData['page_title'] = 'List Donors';
 		$this->load->view('header', $this->headerData);
 		$this->load->view('donors/index', $this->viewData);
@@ -51,7 +51,7 @@ class Donors extends CI_Controller {
 		$this->headerData['page_title'] = 'Update Donors';
 		$this->viewData['donor_details'] = $this->donor_model->get_details($donor_id);
 		
-		$this->form_validation->set_rules('donor_name', 'Donor_name', 'required');
+		$this->form_validation->set_rules('donor_name', 'Donor_name', 'required|unique_exclude[donors,donor_name,donor_id,'.$donor_id.']');
 		$this->form_validation->set_rules('phone_number', 'Phone_number', 'required');
 	
 		if ($this->form_validation->run() === FALSE) {
@@ -61,9 +61,14 @@ class Donors extends CI_Controller {
         } else {
 			// form submit
 			// db save -- list page redirect 
-		
-			$data['donor_name'] = $this->input->post('donor_name');
-			$data['donor_phone'] = $this->input->post('phone_number');
+			$data=[
+				'donor_name'=> $this->input->post('donor_name'),
+				'donor_phone'=> $this->input->post('phone_number'),
+				'email' => $this->input->post('email'),
+				'address' => $this->input->post('address')
+			];		
+			// $data['donor_name'] = $this->input->post('donor_name');
+			// $data['donor_phone'] = $this->input->post('phone_number');
 			$this->viewData['donor_details'] = $this->donor_model->update_entry($data,$donor_id);
 			$this->session->set_flashdata('success', 'Updated Successfully');
             redirect('donors');

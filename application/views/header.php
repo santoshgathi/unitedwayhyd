@@ -118,6 +118,9 @@
               <?php echo anchor('eightyg/fileupload','<i class="fas fa-upload nav-icon"></i><p>Upload</p>', 'class="nav-link"'); ?>
               </li>
               <li class="nav-item">
+              <?php echo anchor('eightyg/create','<i class="fas fa-plus-square nav-icon"></i><p>Add New</p>', 'class="nav-link"'); ?>
+              </li>
+              <li class="nav-item">
               <?php echo anchor('eightyg','<i class="fas fa-list nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
               </li>
             </ul>

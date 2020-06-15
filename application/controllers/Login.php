@@ -4,7 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Login extends CI_Controller {
 
     function __construct() { 
-        parent::__construct(); 
+        parent::__construct();
+        $this->load->model('user_model');
     }
 
 	public function index() {
@@ -16,9 +17,11 @@ class Login extends CI_Controller {
         } else {
             $username = $this->input->post('username');
             $password = $this->input->post('password');
-            if($username === "unitedadmin" && $password === "United@1234") {                
+            $result = $this->user_model->get_user($username, $password);
+            //print_r($result);exit;
+            if($result) {                
                 $this->session->set_userdata('isUserLoggedIn', TRUE); 
-                $this->session->set_userdata('userId', 'unitedadmin');
+                $this->session->set_userdata('userId', $result->username);
                 redirect('welcome');
             } else {
                 $this->session->set_flashdata('error', 'Invalid Login');

@@ -38,12 +38,8 @@ foreach ($view_data as $key => $value) {
 </div>
               <!-- /.card-body -->
               <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">«</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">»</a></li>
+              <ul class="pagination pagination-sm m-0 float-right">
+                  <?php echo $this->pagination->create_links();?>
                 </ul>
               </div>
             </div>

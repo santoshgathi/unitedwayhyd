@@ -9,38 +9,33 @@ class Donor_model extends CI_Model{
 	    return $message;
 	}
 
-    public function return_users() {
-
-		$query=$this->db->query("Select * from donors");
-		//print_r($query);
-		// $query->result_array();
-		// echo "<pre>";
-		// print_r($query->result_array());
-		// echo "</pre>";
-		return $query->result_array();
-		//return ["username"=>"Santosh","company"=>"Gathi"];
+	public function get_donors() 
+	{
+		$this->db->order_by('donor_name', 'ASC');
+		$query = $this->db->get('donors');
+        $result = $query->result_array();
+		return $result;
 	}
 	
 	
     
-	public function return_donors() {        
-		$data1=$this->db->query("Select donor_id,donor_name from donors")->result_array();
-		$x=array();
-		$x1=0;
-		foreach($data1 as $i){
-			$x[$i['donor_id']]=$i['donor_name'];
+	public function return_donors() {  
+		$this->db->order_by('donor_name', 'ASC');   
+		$query = $this->db->get('donors');
+		$result = $query->result_array();
+		$donors = array();
+		foreach($result as $v){
+			$donors[$v['donor_id']] = $v['donor_name'];
 		}
-		return $x;
-	}
-    
-	public function return_area() {        
-		$data1=$this->db->query("Select area_id,area_name from areas")->result_array();
-		$x=array();
-		$x1=0;
-		foreach($data1 as $i){
-			$x[$i['area_id']]=$i['area_name'];
-		}
-		return $x;
+		return $donors;
+		
+		// $data1=$this->db->query("Select donor_id,donor_name from donors")->result_array();
+		// $x=array();
+		// $x1=0;
+		// foreach($data1 as $i){
+		// 	$x[$i['donor_id']]=$i['donor_name'];
+		// }
+		// return $x;
 	}
     
 	public function return_expend() {        

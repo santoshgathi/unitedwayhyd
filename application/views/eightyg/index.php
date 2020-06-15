@@ -4,7 +4,6 @@
                 <h3 class="card-title">Bordered Table</h3>
               </div> -->
               <!-- /.card-header -->
-              <?php echo $email_status; ?>
               <?php echo form_open($current_url); echo form_hidden('eightysubmit', 'yes');?>
               <div class="card-body">
               

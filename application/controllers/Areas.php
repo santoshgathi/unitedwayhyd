@@ -39,13 +39,12 @@ class Areas extends CI_Controller {
         }
 	}
 	
-	public function edit($data) {
+	public function edit($area_id) {
 		
 		$this->headerData['page_title'] = 'Edit Area';
-		$this->load->model('Areas_model');
-		$this->areas['area'] = $this->Areas_model->get_areas($data);
+		$this->areas['area'] = $this->areas_model->get_details($area_id);
 		
-		$this->form_validation->set_rules('area_name', 'Area_name', 'required');
+		$this->form_validation->set_rules('area_name', 'Area name', 'required|unique_exclude[areas,area_name,area_id,'.$area_id.']');
 	
 		if ($this->form_validation->run() === FALSE) {
          	$this->load->view('header', $this->headerData);
@@ -53,7 +52,7 @@ class Areas extends CI_Controller {
 			$this->load->view('footer');
         } else {
 			$area['area_name'] = $this->input->post('area_name');
-			$this->viewData['area_d'] = $this->Areas_model->update_area($area,$data);
+			$this->viewData['area_d'] = $this->areas_model->update_area($area, $area_id);
 			$this->session->set_flashdata('success', 'Updated Successfully');
             redirect('areas');
         }

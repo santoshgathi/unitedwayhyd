@@ -22,7 +22,7 @@ class Eightyg extends MY_Controller {
     } 
 	
 	public function index() {
-		$this->headerData['current_url'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		$this->viewData['current_url'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		$this->load->library('pagination');
 		$this->headerData['page_title'] = 'List 80G';
 		$this->viewData['size'] = $size = $this->input->get('size') ? $this->input->get('size') : 10;
@@ -34,7 +34,6 @@ class Eightyg extends MY_Controller {
 		$this->pagination->initialize($config);
 		$this->viewData['paginationSummary']  = $this->pagination_summary($page, $config['per_page'], $config['total_rows']);
 
-		$this->viewData['email_status'] = '';
 		$this->form_validation->set_rules('eightysubmit', 'Form submit', 'required');
 		$this->form_validation->set_rules('eightyg_action', 'Select Action', 'required');
 		if ($this->form_validation->run() === FALSE) {
@@ -43,22 +42,22 @@ class Eightyg extends MY_Controller {
 			// get the check boxes ids
 			$eightyg_ids = $this->input->post('eightyg_ids');
 			$eightyg_action = $this->input->post('eightyg_action');
-			//print_r($eightyg_ids);
-			$count_ids = count((array)$eightyg_ids);
-			for ($i=0; $i < $count_ids; $i++) { 
-				//print_r($this->viewData['eightyg_data'][$i]);
+			//print_r($eightyg_ids);exit;
+			//$count_ids = count((array)$eightyg_ids);
+			foreach ($eightyg_ids as  $k => $v) { 
+				//print_r($this->viewData['eightyg_data'][$v]);
 				if($eightyg_action === 'gen80g' || $eightyg_action === 'gen80gsendemail') {
-					$file_80g = $this->generate80G_PDF($this->viewData['eightyg_data'][$i]);
-					$this->eightyg_model->update_80g_file_status($this->viewData['eightyg_data'][$i]->id,$file_80g);
+					$file_80g = $this->generate80G_PDF($this->viewData['eightyg_data'][$v]);
+					$this->eightyg_model->update_80g_file_status($this->viewData['eightyg_data'][$v]->id,$file_80g);
 				}				
 				if($eightyg_action === 'sendemail' || $eightyg_action === 'gen80gsendemail') {
-					$email_status = $this->sendemail($this->viewData['eightyg_data'][$i]);
+					$email_status = $this->sendemail($this->viewData['eightyg_data'][$v]);
 					if($email_status) {
-						$this->eightyg_model->update_80g_email_status($this->viewData['eightyg_data'][$i]->id);
-						$this->viewData['email_status'] = 'Email Sent';
+						$this->eightyg_model->update_80g_email_status($this->viewData['eightyg_data'][$v]->id);
 					}
 				}								
 			}
+			redirect($this->viewData['current_url']);
 		}		
 
 		$this->load->view('header', $this->headerData);
@@ -153,7 +152,7 @@ class Eightyg extends MY_Controller {
 		$this->headerData['page_title'] = 'Update 80G';
 		$this->viewData['eightyg_details'] = $this->eightyg_model->get_details($egithyg_id);
 		//print_r($eightyg_details);
-		$this->form_validation->set_rules('receipt_no', 'receipt no', 'required');
+		$this->form_validation->set_rules('receipt_no', 'receipt no', 'required|unique_exclude[80guploads,receipt_no,id,'.$egithyg_id.']');
 		$this->form_validation->set_rules('donor_name', 'donor name', 'required');
 		$this->form_validation->set_rules('pan_no', 'pan no', 'required');
 		$this->form_validation->set_rules('email', 'email', 'required');
@@ -175,12 +174,17 @@ class Eightyg extends MY_Controller {
 			$data['sum_monthly_contribution'] = $this->input->post('sum_monthly_contribution');
 			$data['trns_date'] = $this->input->post('trns_date');
 			$data['ref_details'] = $this->input->post('ref_details');
+			$data['amount_in_words'] = $this->input->post('amount_in_words');
+			$data['address1'] = $this->input->post('address1');
+			$data['address2'] = $this->input->post('address2');
 			$data['bank'] = $this->input->post('bank');
+			$data['city'] = $this->input->post('city');
+			$data['donation_cause'] = $this->input->post('donation_cause');
 			$this->viewData['eightyg_details'] = $this->eightyg_model->update_entry($data, $egithyg_id);
 			$this->session->set_flashdata('success', 'Updated Successfully');
             redirect('eightyg');
         }
-	}
+	}	
 
 	// public function generatepdf ($data) {
 	// 	$details['firstname'] = 'first';
@@ -300,12 +304,13 @@ class Eightyg extends MY_Controller {
 			unlink($file_path);
 		}
 		$pdf->output('F',$file_path);
+		log_message('info', '80G PDF generation : '.$details->receipt_no);
 		return $file_name;
 	}
 
 	public function sendemail($details) {
 		//check for file
-		if (!file_exists('80g_certificates/'.$details->pdf_80g)) {
+		if (!file_exists('80g_certificates/'.$details->receipt_no.'.pdf')) {
 			return false;
 		}
 
@@ -400,6 +405,7 @@ web: www.unitedwayhyderabad.org";
 			echo "Mailer Error: " . $mail->ErrorInfo;
 		} else {
 			$email_status =  true;
+			log_message('info', 'Email Success : '.$details->receipt_no);
 			//Section 2: IMAP
 			//$path = "{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail";
 			//Tell your server to open an IMAP connection using the same username and password as you used for SMTP
@@ -429,7 +435,41 @@ web: www.unitedwayhyderabad.org";
 		return $result;
 	}
 
-	
+	public function create() {
+		$this->headerData['page_title'] = 'Create 80G';
+		$this->form_validation->set_rules('receipt_no', 'receipt no', 'required|is_unique[80guploads.receipt_no]');
+		$this->form_validation->set_rules('donor_name', 'donor name', 'required');
+		$this->form_validation->set_rules('pan_no', 'pan no', 'required');
+		$this->form_validation->set_rules('email', 'email', 'required');
+		$this->form_validation->set_rules('sum_monthly_contribution', 'sum monthly contribution', 'required');
+		$this->form_validation->set_rules('trns_date', 'trns date', 'required');
+		$this->form_validation->set_rules('ref_details', 'ref details', 'required');
+		$this->form_validation->set_rules('bank', 'bank', 'required');
+		if ($this->form_validation->run() === FALSE) {
+         	$this->load->view('header', $this->headerData);
+			$this->load->view('eightyg/create', $this->viewData);
+			$this->load->view('footer');
+        } else {
+			// form submit
+			// db save -- list page redirect 
+			$data['receipt_no'] = $this->input->post('receipt_no');
+			$data['donor_name'] = $this->input->post('donor_name');
+			$data['pan_no'] = $this->input->post('pan_no');
+			$data['email'] = $this->input->post('email');
+			$data['sum_monthly_contribution'] = $this->input->post('sum_monthly_contribution');
+			$data['trns_date'] = $this->input->post('trns_date');
+			$data['ref_details'] = $this->input->post('ref_details');
+			$data['amount_in_words'] = $this->input->post('amount_in_words');
+			$data['address1'] = $this->input->post('address1');
+			$data['address2'] = $this->input->post('address2');
+			$data['bank'] = $this->input->post('bank');
+			$data['city'] = $this->input->post('city');
+			$data['donation_cause'] = $this->input->post('donation_cause');
+			$this->viewData['eightyg_details'] = $this->eightyg_model->insert_entry($data);
+			$this->session->set_flashdata('success', 'Created Successfully');
+            redirect('eightyg');
+        }
+	}
 	
 	public function amountInWords($amount) {
 		$amount_after_decimal = round($amount - ($num = floor($amount)), 2) * 100;

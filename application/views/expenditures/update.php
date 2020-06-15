@@ -18,7 +18,7 @@
                 <div class="card-body"> 
                 <div class="form-group">
                     <label for="exampleInputEmail1">Expenditure Date</label>
-                    <?php echo form_input('expenditure_dt', $exp_details->expenditure_dt, 'class="form-control"'); ?>
+                    <?php echo form_input('expenditure_dt', $exp_details->expenditure_dt, 'class="form-control" id="expenditure_dt" autocomplete="off" required'); ?>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Donor</label>

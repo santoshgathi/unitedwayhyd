@@ -17,16 +17,21 @@
               <?php echo form_open('donors/update/'.$donor_details->donor_id);?>
                 <div class="card-body"> 
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Donor Name</label>
+                    <label for="donor_name">Donor Name</label>
                     <?php echo form_input('donor_name',$donor_details->donor_name, 'class="form-control"'); ?>
                 </div>
-              
-              
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Phone number</label>
+                    <label for="phone_number">Phone number</label>
                     <?php echo form_input('phone_number', $donor_details->donor_phone, 'class="form-control"'); ?>
                 </div> 
-                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <?php echo form_input('email', $donor_details->email, 'class="form-control"'); ?>
+                  </div>
+                  <div class="form-group">
+                    <label for="address">Address</label>
+                    <?php echo form_input('address', $donor_details->address, 'class="form-control"'); ?>
+                  </div>
                 </div>
                 <!-- /.card-body -->
 
