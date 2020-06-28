@@ -3,9 +3,9 @@
     <div class="col-md-6">
         <!-- general form elements -->
         <div class="card card-primary">
-              <div class="card-header">
+              <!-- <div class="card-header">
                 <h3 class="card-title">Add New Expenditure</h3>
-              </div>
+              </div> -->
               <!-- /.card-header -->
               <!-- form start -->
               <?php echo validation_errors(); ?>
@@ -52,6 +52,10 @@
                   <div class="form-group">
                     <label for="exampleInputPassword1">amount spent</label>
                     <input type="text" class="form-control" id="exampleInputPassword1" value="0" name="amount_spent">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">UWH Admin Cost</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" value="0" name="admin_cost">
                   </div>
                
                 </div>

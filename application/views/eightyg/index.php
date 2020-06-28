@@ -38,8 +38,9 @@
                     }                    
                     echo '<td>'.$file_status.'</td>';
                     echo '<td>'.$data->sent_email.'</td>';
-                    echo '<td>'.anchor('eightyg/update/'.$data->id, 'edit', 'class="btn btn-primary btn-sm mr-1"');
-                    echo '<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#eightyg_'.$data->id.'">Details</button>';
+                    echo '<td>'.anchor('eightyg/update/'.$data->id, '<i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Edit 80g"></i>', 'class="mr-1"');
+                    //echo anchor('#', '<i class="fas fa-list" data-toggle="modal" data-target="#eightyg_'.$data->id.'"></i>', 'class=""');
+                    echo '<span style="cursor: pointer;" data-toggle="modal" data-target="#eightyg_'.$data->id.'"><i class="fas fa-list" data-toggle="tooltip" title="80g Details" data-placement="top"></i></span>';
                   echo   '<div class="modal fade" id="eightyg_'.$data->id.'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">                      

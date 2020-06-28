@@ -20,8 +20,10 @@ class Login extends CI_Controller {
             $result = $this->user_model->get_user($username, $password);
             //print_r($result);exit;
             if($result) {                
-                $this->session->set_userdata('isUserLoggedIn', TRUE); 
-                $this->session->set_userdata('userId', $result->username);
+                $this->session->set_userdata('loggedin', TRUE); 
+                $this->session->set_userdata('user_role', $result->user_role);
+                $this->session->set_userdata('username', $result->username);
+                $this->session->set_userdata('userId', $result->id);
                 redirect('welcome');
             } else {
                 $this->session->set_flashdata('error', 'Invalid Login');
@@ -31,7 +33,8 @@ class Login extends CI_Controller {
     } 
     
     public function logout(){ 
-        $this->session->unset_userdata('isUserLoggedIn'); 
+        $this->session->unset_userdata('loggedin'); 
+        $this->session->unset_userdata('userRole'); 
         $this->session->unset_userdata('userId'); 
         $this->session->sess_destroy(); 
         redirect('login'); 

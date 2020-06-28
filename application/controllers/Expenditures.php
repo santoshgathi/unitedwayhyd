@@ -7,12 +7,9 @@ class Expenditures extends MY_Controller {
 	private $viewData=array('view_data'=>'');
 
 	function __construct() { 
-        parent::__construct();         
-        // User login status 
-		$isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
-		if(!$isUserLoggedIn) { 
-            redirect('login'); 
-		}
+        parent::__construct();
+		$this->viewData['user_role'] = $this->session->userdata("user_role");
+		$this->headerData['menus'] = $this->user_menu($this->viewData['user_role']);
 		$this->load->model('donor_model');
 		$this->load->model('expenditure_model');
 		$this->load->model('areas_model');
@@ -63,6 +60,7 @@ class Expenditures extends MY_Controller {
 			   'sanitation_material'=> $this->input->post('sanitation_material'),
 			   'ppe_kits'=> $this->input->post('ppe_kits'),
 			   'amount_spent'=> $this->input->post('amount_spent'),
+			   'uwh_admin'=> $this->input->post('admin_cost'),
 		   ];		   
 		   $message=$this->expenditure_model->insert_entry($data);
 		   $this->session->set_flashdata('success', 'Inserted Successfully');
@@ -103,7 +101,8 @@ class Expenditures extends MY_Controller {
 				'medical_equipment' => $this->input->post('medical_equipment'),
 				'sanitation_material' => $this->input->post('sanitation_material'),
 				'ppe_kits' => $this->input->post('ppe_kits'),
-				'amount_spent' => $this->input->post('amount_spent')	
+				'amount_spent' => $this->input->post('amount_spent'),
+				'uwh_admin'=> $this->input->post('admin_cost'),
 			];
 			$this->viewData['exp_details'] = $this->expenditure_model->update_entry($data,$expenditure_id);
 			$this->session->set_flashdata('success', 'Updated Successfully');

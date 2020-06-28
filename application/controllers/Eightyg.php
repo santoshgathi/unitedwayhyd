@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 require(APPPATH .'third_party/fpdf/fpdf.php');
-require(APPPATH .'third_party/phpmailer/PHPMailerAutoload.php');;
+require(APPPATH .'third_party/phpmailer/PHPMailerAutoload.php');
 //Import PHPMailer classes into the global namespace
 // use PHPMailer\PHPMailer\PHPMailer;
 // use PHPMailer\PHPMailer\SMTP;
@@ -12,12 +12,9 @@ class Eightyg extends MY_Controller {
 	private $viewData;
 
 	function __construct() { 
-        parent::__construct();         
-        // User login status 
-		$isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
-		if(!$isUserLoggedIn) { 
-            redirect('login'); 
-		}
+        parent::__construct();
+		$this->viewData['user_role'] = $this->session->userdata("user_role");
+		$this->headerData['menus'] = $this->user_menu($this->viewData['user_role']);
 		$this->load->model('eightyg_model');
     } 
 	

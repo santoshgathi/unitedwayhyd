@@ -43,8 +43,7 @@
                     <thead>
                     <tr>
                       <th>Date</th>
-                      <th>Contact name</th>
-                      <th>Email</th>
+                      <th>User</th>
                       <th>Visit Purpose</th>
                     </tr>
                     </thead>
@@ -52,8 +51,7 @@
                     <?php 
 foreach ($today_appointments as $key => $value) {
 	 echo "<tr><td>".date('d-m-Y', strtotime($value->appointment_date))."</td>
-        <td>".$value->appointment_name."</td>
-        <td>".$value->appointment_email."</td>
+        <td>".$value->username."</td>
         <td>".$value->visit_purpose."</td></tr>";
 }
 ?>

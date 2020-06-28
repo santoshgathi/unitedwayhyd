@@ -1,17 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Areas extends CI_Controller {
+class Areas extends MY_Controller {
 
 	private $headerData = array('page_title'=>'');
 
 	function __construct() { 
-        parent::__construct();         
-        // User login status 
-		$isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
-		if(!$isUserLoggedIn) { 
-            redirect('login'); 
-		}
+        parent::__construct();
+		$this->viewData['user_role'] = $this->session->userdata("user_role");
+		$this->headerData['menus'] = $this->user_menu($this->viewData['user_role']);
 		$this->load->model('areas_model');
     } 
 	
@@ -39,7 +36,7 @@ class Areas extends CI_Controller {
         }
 	}
 	
-	public function edit($area_id) {
+	public function update($area_id) {
 		
 		$this->headerData['page_title'] = 'Edit Area';
 		$this->areas['area'] = $this->areas_model->get_details($area_id);
@@ -48,7 +45,7 @@ class Areas extends CI_Controller {
 	
 		if ($this->form_validation->run() === FALSE) {
          	$this->load->view('header', $this->headerData);
-			$this->load->view('areas/edit', $this->areas);
+			$this->load->view('areas/update', $this->areas);
 			$this->load->view('footer');
         } else {
 			$area['area_name'] = $this->input->post('area_name');

@@ -19,7 +19,7 @@ foreach ($view_data as $key => $value) {
 	 echo "<tr>
 	 	<td>".$value['donor_name']."</td>
 		 <td>".$value['donor_phone']."</td><td>".$value['email']."</td><td>".$value['address']."</td>
-		<td>".anchor('donors/update/'.$value['donor_id'], 'edit', 'class="btn btn-primary btn-sm mr-1"')."</td>
+		<td>".anchor('donors/update/'.$value['donor_id'], '<i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Edit Donor"></i>', 'class="mr-1"')."</td>
 
 	 </tr>";
 	# code...

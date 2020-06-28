@@ -3,9 +3,9 @@
     <div class="col-md-6">
         <!-- general form elements -->
         <div class="card card-primary">
-              <div class="card-header">
+              <!-- <div class="card-header">
                 <h3 class="card-title">Update Expenditure</h3>
-              </div>
+              </div> -->
               <!-- /.card-header -->
               <!-- form start -->
               <?php if(isset($error)): ?>
@@ -45,14 +45,17 @@
                     <?php echo form_input('sanitation_material', $exp_details->sanitation_material, 'class="form-control"'); ?>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Ppe_kits</label>
+                    <label for="exampleInputEmail1">Ppe kits</label>
                     <?php echo form_input('ppe_kits', $exp_details->ppe_kits, 'class="form-control"'); ?>
                 </div> 
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Amount_spent</label>
+                    <label for="exampleInputEmail1">Amount spent</label>
                     <?php echo form_input('amount_spent', $exp_details->amount_spent, 'class="form-control"'); ?>
                 </div> 
-                
+                <div class="form-group">
+                    <label for="exampleInputEmail1">UWH Admin Cost</label>
+                    <?php echo form_input('admin_cost', $exp_details->uwh_admin, 'class="form-control"'); ?>
+                </div>
                 </div>
                 <!-- /.card-body -->
 

@@ -61,7 +61,7 @@
     <ul class="navbar-nav ml-auto">
       <!-- Messages Dropdown Menu -->
       <li class="nav-item">
-      <span class="nav-link"> Welcome, <strong><?php echo $this->session->userdata('userId'); ?></strong></span>
+      <span class="nav-link"> Welcome, <strong><?php echo $this->session->userdata('username'); ?></strong></span>
       </li>
       <li class="nav-item">
       <?php echo anchor('login/logout','<i class="nav-icon fas fa-sign-out-alt"></i>', 'class="nav-link"'); ?>
@@ -105,7 +105,8 @@
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview">
+          <?php echo $menus;?>
+          <!-- <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -185,12 +186,31 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-             
+            <li class="nav-item">
+              <?php echo anchor('appointments/create','<i class="fas fa-plus-square nav-icon"></i><p>Add New</p>', 'class="nav-link"'); ?>
+              </li>
               <li class="nav-item">
               <?php echo anchor('appointments','<i class="fas fa-list nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
               </li>
             </ul>
-          </li>           
+          </li>     
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Users
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+              <?php echo anchor('users/create','<i class="fas fa-plus-square nav-icon"></i><p>Add New</p>', 'class="nav-link"'); ?>
+              </li>
+              <li class="nav-item">
+              <?php echo anchor('users','<i class="fas fa-list nav-icon"></i><p>List</p>', 'class="nav-link"'); ?>
+              </li>
+            </ul>
+          </li>  -->    
           
         </ul>
       </nav>

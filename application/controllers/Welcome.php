@@ -1,18 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Welcome extends MY_Controller {
 
 	private $headerData = array('page_title'=>'');
 	private $viewData;
 
 	function __construct() { 
-        parent::__construct();         
-        // User login status 
-		$isUserLoggedIn = $this->session->userdata('isUserLoggedIn');
-		if(!$isUserLoggedIn) { 
-            redirect('login'); 
-		}
+        parent::__construct();
+		$this->viewData['user_role'] = $this->session->userdata("user_role");
+		$this->headerData['menus'] = $this->user_menu($this->viewData['user_role']);
 		$this->load->model('appointments_model');
 		$this->load->model('donor_model');
     } 

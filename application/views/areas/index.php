@@ -15,7 +15,7 @@
 foreach ($areas as $are) {
 	 echo "<tr>
 	 	<td>".$are['area_name']."</td>
-		<td>".anchor('areas/edit/'.$are['area_id'], 'edit', 'class="btn btn-primary btn-sm mr-1"')."</td>
+		<td>".anchor('areas/update/'.$are['area_id'], '<i class="fas fa-edit" data-toggle="tooltip" title="Edit Area"></i>', 'class="mr-1"')."</td>
 	    </tr>";
 }
 ?>	
