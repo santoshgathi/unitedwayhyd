@@ -14,8 +14,11 @@ class Eightyg_model extends CI_Model {
         //echo $this->db->last_query(); 
     }
 
-    public function get_entries($action = 'rows', $start, $limit) {
+    public function get_entries($action = 'rows', $start, $limit, $donor = "") {
         $this->db->from('80guploads');
+        if($donor != "") {
+            $this->db->like('donor_name', $donor);
+        }
         if($action == 'rows' || $action == 'export') {
             if($action !== 'export') {
                 $this->db->limit($limit, $start);

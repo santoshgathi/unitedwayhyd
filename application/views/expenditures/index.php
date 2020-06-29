@@ -1,9 +1,9 @@
 
 <div class="row"><div class="col-md-12">
 <div class="card">
-              <!-- <div class="card-header">
-                <h3 class="card-title">Bordered Table</h3>
-              </div> -->
+<div class="card-header">
+  <?php echo anchor('expenditures/create','<i class="fas fa-plus-square nav-icon"></i> Add New Expenditure', 'class="btn btn-default btn-sm"'); ?>
+        </div>
               <!-- /.card-header -->
               <div class="card-body">
               <table class="table table-bordered">
@@ -30,7 +30,7 @@ foreach ($view_data as $key => $value) {
         <td>".$value['sanitation_material']."</td>
         <td>".$value['ppe_kits']."</td>
         <td>".$value['amount_spent']."</td>
-        <td>".anchor('expenditures/update/'.$value['expenditure_id'], 'edit', '')."</td></tr>";
+        <td>".anchor('expenditures/update/'.$value['expenditure_id'], '<i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Edit Expenditure"></i>', '')."</td></tr>";
 }
 ?>
 

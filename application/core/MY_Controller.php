@@ -68,7 +68,7 @@ class MY_Controller extends CI_Controller {
                 'donors/index', 'donors/create', 'donors/update', 
                 'areas/index', 'areas/create', 'areas/update', 
                 'expenditures/index', 'expenditures/create', 'expenditures/update', 
-                'appointments/index', 'appointments/approve',
+                'appointments/index', 'appointments/approve', 'appointments/create',
                 'users/index', 'users/create', 'users/update',                
             ),
             'employee' => array(

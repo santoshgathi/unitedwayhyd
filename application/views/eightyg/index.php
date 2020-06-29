@@ -1,8 +1,21 @@
 <div class="row"><div class="col-md-12">
 <div class="card">
-              <!-- <div class="card-header">
-                <h3 class="card-title">Bordered Table</h3>
-              </div> -->
+    <div class="card-header">
+    <form action="<?php echo $current_url;?>" method="get">
+  <div class="form-row">
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Donor name" name="donor" value="<?php echo $donor;?>">
+    </div>
+    <div class="col">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <?php echo anchor('eightyg','<i class="fas fa-redo-alt nav-icon"></i> Reset', 'class="btn btn-default"'); ?>
+    <?php echo anchor('eightyg/create','<i class="fas fa-plus-square nav-icon"></i> Add New', 'class="btn btn-default"'); ?>
+  <?php echo anchor('eightyg/fileupload','<i class="fas fa-upload nav-icon"></i> Upload', 'class="btn btn-default"'); ?>
+    </div>
+  </div>
+</form>
+  
+        </div>
               <!-- /.card-header -->
               <?php echo form_open($current_url); echo form_hidden('eightysubmit', 'yes');?>
               <div class="card-body">

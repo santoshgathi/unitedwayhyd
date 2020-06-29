@@ -4,9 +4,9 @@
   <div class="col-md-6">
         <!-- general form elements -->
         <div class="card card-primary">
-              <div class="card-header">
+              <!-- <div class="card-header">
                 <h3 class="card-title">Add New Area </h3>
-              </div>
+              </div> -->
               <!-- /.card-header -->
               <!-- form start -->
 			  

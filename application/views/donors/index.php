@@ -1,9 +1,9 @@
 
 <div class="row"><div class="col-md-12">
 <div class="card">
-              <!-- <div class="card-header">
-                <h3 class="card-title">Bordered Table</h3>
-              </div> -->
+<div class="card-header">
+  <?php echo anchor('donors/create','<i class="fas fa-plus-square nav-icon"></i> Add New Donor', 'class="btn btn-default btn-sm"'); ?>
+        </div>
               <!-- /.card-header -->
               <div class="card-body">
 	<table class="table table-bordered table-sm">

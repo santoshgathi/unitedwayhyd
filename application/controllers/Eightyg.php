@@ -22,11 +22,12 @@ class Eightyg extends MY_Controller {
 		$this->viewData['current_url'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		$this->load->library('pagination');
 		$this->headerData['page_title'] = 'List 80G';
+		$this->viewData['donor'] = $donor = $this->input->get('donor') ? $this->input->get('donor') : '';
 		$this->viewData['size'] = $size = $this->input->get('size') ? $this->input->get('size') : 10;
 		$page = $this->input->get('per_page') ? $this->input->get('per_page') : 0;
 		$config = $this->pagination_config_array('/index.php/eightyg/index/', $size);
-		$config['total_rows'] = $this->eightyg_model->get_entries('count', 0, 0);
-		$this->viewData['eightyg_data'] = $this->eightyg_model->get_entries('rows', $page, $config['per_page']);
+		$config['total_rows'] = $this->eightyg_model->get_entries('count', 0, 0, $donor);
+		$this->viewData['eightyg_data'] = $this->eightyg_model->get_entries('rows', $page, $config['per_page'], $donor);
 		//print_r($this->viewData['eightyg_data']);
 		$this->pagination->initialize($config);
 		$this->viewData['paginationSummary']  = $this->pagination_summary($page, $config['per_page'], $config['total_rows']);
