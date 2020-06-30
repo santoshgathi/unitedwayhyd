@@ -8,10 +8,13 @@ class appointments_model extends CI_Model{
         //echo $this->db->last_query(); 
 	}
 	
-	public function get_appointments($action = 'rows', $start, $limit) {
+	public function get_appointments($action = 'rows', $start, $limit, $role) {
         $this->db->select('appointments.*, users.username');
         $this->db->from('appointments');
         $this->db->join('users', 'users.id = appointments.applied_by');
+        if($role == "employee") {
+            $this->db->where('appointments.applied_by',$this->session->userdata("userId"));
+        }
         if($action == 'rows' || $action == 'export') {
             if($action !== 'export') {
                 $this->db->limit($limit, $start);

@@ -21,8 +21,8 @@ class Appointments extends MY_Controller {
 		$this->viewData['size'] = $size = $this->input->get('size') ? $this->input->get('size') : 10;
 		$page = $this->input->get('per_page') ? $this->input->get('per_page') : 0;
 		$config = $this->pagination_config_array('/index.php/appointments/index/', $size);
-		$config['total_rows'] = $this->appointments_model->get_appointments('count', 0, 0);
-		$this->viewData['view_data']= $this->appointments_model->get_appointments('rows', $page, $config['per_page']);
+		$config['total_rows'] = $this->appointments_model->get_appointments('count', 0, 0, $this->viewData['user_role']);
+		$this->viewData['view_data']= $this->appointments_model->get_appointments('rows', $page, $config['per_page'], $this->viewData['user_role']);
 		$this->pagination->initialize($config);
 		$this->viewData['paginationSummary']  = $this->pagination_summary($page, $config['per_page'], $config['total_rows']);
 		$this->load->view('header', $this->headerData);
@@ -86,26 +86,12 @@ class Appointments extends MY_Controller {
 	}
 
 	public function sendemail($details) {
-		//check for file
-		if (!file_exists('80g_certificates/'.$details->receipt_no.'.pdf')) {
-			return false;
-		}
 
-		$message ="Hello ".$details->donor_name.",<br/><br/>
-Thanks for your donation.<br/><br/>
-<strong>Your Donation Details:</strong><br/>
-Amount: ".$details->sum_monthly_contribution."<br/>
-Transaction ID: ".$details->ref_details."<br/><br/>
-Please find the attachment for <strong>80G Certificate</strong>,
-
-Looking forward for your continued support.<br/><br/>
--------------------------------<br/>
-Thanks and Regards,<br/>
-Manager - Accounts<br/>
-United Way of Hyderabad<br/>
-Phone : 040 40042010/11<br/>
-email : accounts@unitedwayhyderabad.org<br/>
-web: www.unitedwayhyderabad.org";
+		$message ="<br/>
+<strong>Appointment Details:</strong><br/>
+Username : ".$this->session->userdata("username")."<br/>
+Appointment Date : ".$details->appointment_date."<br/><br/>
+Visit Purpose : ".$details->visit_purpose."<br/><br/>";
 		/*
 		* This example shows settings to use when sending via Google's Gmail servers.
 		* The IMAP section shows how to save this message to the 'Sent Mail' folder using IMAP commands.
@@ -160,10 +146,10 @@ web: www.unitedwayhyderabad.org";
 		//$mail->addCC('suresh@unitedwayhyderabad.org');
 
 		//Set who the message is to be sent to
-		$mail->addAddress($details->email, $details->donor_name);
+		$mail->addAddress("suresh@unitedwayhyderabad.org", "Suresh Vankadari");
 		
 		//Set the subject line
-		$mail->Subject = "Thank you for your Donation to United Way of Hyderabad";
+		$mail->Subject = "Appointment Request ".$details->appointment_date;
 
 		//Read an HTML message body from an external file, convert referenced images to embedded,
 		//convert HTML into a basic plain-text alternative body
@@ -173,7 +159,7 @@ web: www.unitedwayhyderabad.org";
 		//$mail->AltBody = 'This is a plain-text message body';
 
 		//Attach an image file
-		$mail->addAttachment('80g_certificates/'.$details->receipt_no.'.pdf');
+		//$mail->addAttachment('80g_certificates/'.$details->receipt_no.'.pdf');
 
 		$email_status = false;
 
@@ -182,7 +168,7 @@ web: www.unitedwayhyderabad.org";
 			echo "Mailer Error: " . $mail->ErrorInfo;
 		} else {
 			$email_status =  true;
-			log_message('info', 'Email Success : '.$details->receipt_no);
+			log_message('info', 'Appointment Email Success : '.$details->appointment_date);
 			//Section 2: IMAP
 			//$path = "{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail";
 			//Tell your server to open an IMAP connection using the same username and password as you used for SMTP
