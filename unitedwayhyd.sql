@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 30, 2020 at 07:25 AM
+-- Generation Time: Jun 30, 2020 at 02:08 PM
 -- Server version: 5.7.26
 -- PHP Version: 5.6.40
 
@@ -138,11 +138,13 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(50) NOT NULL,
   `full_name` varchar(150) NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
+  `email` varchar(150) NOT NULL,
   `user_role` char(25) NOT NULL,
   `created_on` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `full_name` (`full_name`)
+  UNIQUE KEY `full_name` (`full_name`),
+  UNIQUE KEY `email` (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 COMMIT;
 

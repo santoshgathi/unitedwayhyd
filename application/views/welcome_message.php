@@ -1,3 +1,4 @@
+<?php if($user_role == "admin"): ?>
 <!-- Info boxes -->
 <div class="row">
           
@@ -16,10 +17,14 @@
           <!-- /.col -->
         </div>
         <!-- /.row -->
+     <!-- /.Info boxes -->   
+     <?php endif; ?>
+
+
 
          <!-- Main row -->
          <div class="row">
-
+         <?php if($user_role == "admin"): ?>
             <!-- Left col -->
             <div class="col-md-8">
                 <!-- TABLE: today_appointments -->
@@ -67,6 +72,8 @@ foreach ($today_appointments as $key => $value) {
             <!-- /.card -->
             </div>
           <!-- /.left col -->
+          <?php endif; ?>
+
           <!-- right col -->
           <div class="col-md-4">
               <!-- PRODUCT LIST -->
@@ -108,5 +115,7 @@ foreach ($week_appointments as $key => $value) {
             <!-- /.card -->
           </div>
           <!-- /.right col -->
-
+</div>
+        <!-- /.row -->
+     <!-- /.Main boxes --> 
 	  

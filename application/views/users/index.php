@@ -10,7 +10,7 @@
 	<table class="table table-bordered table-sm">
 		<tr>
 			<th>Username</th>
-			<th>Full Name</th>
+			<th>Full Name</th><th>Email</th>
 			<th>Status</th><th>Created On</th>
 			<th>Actions</th>
 </tr>
@@ -19,7 +19,7 @@ foreach ($view_data as $key => $value) {
 	
 
 	 echo "<tr>
-	 	<td>".$value['username']."</td><td>".$value['full_name']."</td>
+	 	<td>".$value['username']."</td><td>".$value['full_name']."</td><td>".$value['email']."</td>
 		 <td>".(($value['status'])?'Active':'Inactive')."</td>
 		 <td>".$value['created_on']."</td>
 		<td>".anchor('users/update/'.$value['id'], '<i class="fas fa-edit" data-toggle="tooltip" title="Edit User"></i>', 'class="mr-1"')."</td>

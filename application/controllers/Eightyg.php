@@ -212,7 +212,7 @@ class Eightyg extends MY_Controller {
 		$pdf->Cell(50,0,'Hyderabad -500034');
 		$pdf->setFont('Arial','B',12);
 		$pdf->SetXY(10,70);
-		$pdf->Cell(50,0,'Ref No:  '.$details->ref_details);
+		$pdf->Cell(50,0,'Ref No:  '.$details->receipt_no);
 		$pdf->SetXY(220,70);
 		$pdf->Cell(50,0,'Receipt Date: '.$trns_date);
 		$pdf->setFont('Arial','',12);

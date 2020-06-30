@@ -16,6 +16,7 @@ class Eightyg_model extends CI_Model {
 
     public function get_entries($action = 'rows', $start, $limit, $donor = "") {
         $this->db->from('80guploads');
+        $this->db->order_by('created_on', 'DESC');
         if($donor != "") {
             $this->db->like('donor_name', $donor);
         }

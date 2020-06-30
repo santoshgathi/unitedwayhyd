@@ -17,7 +17,7 @@ class Login extends CI_Controller {
         } else {
             $username = $this->input->post('username');
             $password = $this->input->post('password');
-            $result = $this->user_model->get_user($username, $password);
+            $result = $this->user_model->check_login($username, $password);
             //print_r($result);exit;
             if($result) {                
                 $this->session->set_userdata('loggedin', TRUE); 

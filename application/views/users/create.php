@@ -25,6 +25,10 @@
                     <?php echo form_input('full_name','', 'class="form-control"'); ?>
                   </div>
                   <div class="form-group">
+                    <label for="exampleInputPassword1">Email</label>
+                    <?php echo form_input('email','', 'class="form-control" required'); ?>
+                  </div>
+                  <div class="form-group">
                     <label for="exampleInputEmail1">Role</label>
                     <?php echo form_dropdown('user_role',array('admin'=>'admin','employee'=>'employee' ), '', 'class="form-control"');?>
                   </div>

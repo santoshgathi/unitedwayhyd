@@ -27,6 +27,7 @@ class Users extends MY_Controller {
 		$this->form_validation->set_rules('username', 'Username', 'required|is_unique[users.username]'); 
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		$this->form_validation->set_rules('full_name', 'Full Name', 'required|is_unique[users.full_name]');
+		$this->form_validation->set_rules('email', 'Email', 'required|is_unique[users.email]');
 		if ($this->form_validation->run() === FALSE) {			
 			$this->load->view('header', $this->headerData);
 			$this->load->view('users/create', $this->viewData);
@@ -36,6 +37,7 @@ class Users extends MY_Controller {
 				'username'=> $this->input->post('username'),
 				'password'=> $this->input->post('password'),
 				'full_name' => $this->input->post('full_name'),
+				'email' => $this->input->post('email'),
 				'user_role' => $this->input->post('user_role'),
 				'status' => '1',
 				'created_on' => date('Y-m-d H:i:s'),
@@ -61,6 +63,7 @@ class Users extends MY_Controller {
 			// db save -- list page redirect 
 			$data=[
 				'full_name'=> $this->input->post('full_name'),
+				'email' => $this->input->post('email'),
 				'status'=> $this->input->post('status')
 			];
 			$this->user_model->update_entry($data,$user_id);

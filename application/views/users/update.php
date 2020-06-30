@@ -22,12 +22,16 @@
                 </div>
                 <div class="form-group">
                     <label for="donor_name">Full Name</label>
-                    <?php echo form_input('donor_name',$user_details->full_name, 'class="form-control"'); ?>
+                    <?php echo form_input('full_name',$user_details->full_name, 'class="form-control"'); ?>
                 </div>
                 <div class="form-group">
-                    <label for="phone_number">Status</label>
-                    <?php echo form_input('status', $user_details->status, 'class="form-control"'); ?>
-                </div>
+                    <label for="exampleInputPassword1">Email</label>
+                    <?php echo form_input('email',$user_details->email, 'class="form-control" required'); ?>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Status</label>
+                    <?php echo form_dropdown('status',array('0'=>'Inactive','1'=>'Active' ), $user_details->status, 'class="form-control"');?>
+                  </div>
                 </div>
                 <!-- /.card-body -->
 

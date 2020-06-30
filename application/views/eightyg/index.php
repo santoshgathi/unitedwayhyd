@@ -28,7 +28,7 @@
                       <th>donor</th>
                       <th>email</th>
                       <th>date</th>
-                      <th>bank</th>
+                      <th>Amount</th>
                       <th>80G File</th>
                       <th>Email Sent</th>
                       <th>actions</th>
@@ -42,7 +42,7 @@
                     echo '<td>'.$data->donor_name.'</td>';
                     echo '<td>'.$data->email.'</td>';
                     echo '<td>'.date('d-m-Y', strtotime($data->trns_date)).'</td>';
-                    echo '<td>'.$data->bank.'</td>';
+                    echo '<td>'.$data->sum_monthly_contribution.'</td>';
                     $file_status = 'NA';
                     if($data->pdf_80g != '') {
                       if(get_file_info('80g_certificates/'.$data->pdf_80g)) {
