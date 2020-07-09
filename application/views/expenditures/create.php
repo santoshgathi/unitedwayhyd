@@ -9,7 +9,7 @@
               <!-- /.card-header -->
               <!-- form start -->
               <?php echo validation_errors(); ?>
-              <?php echo form_open('Expenditures/create', array('autocomplete' => 'off')); ?>
+              <?php echo form_open('expenditures/create', array('autocomplete' => 'off')); ?>
                 <div class="card-body">
                   <div class="form-group">
                     <label for="expenditure_dt">Date</label>

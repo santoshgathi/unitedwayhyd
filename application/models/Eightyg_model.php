@@ -6,19 +6,32 @@ class Eightyg_model extends CI_Model {
     public function insert_entry($data) {
         $this->db->insert('80guploads', $data);
         //echo $this->db->last_query(); 
+        //return $this->db->insert_id();
     }
 
     public function update_entry($data, $egithyg_id) {
         $this->db->where('id', $egithyg_id);
         $this->db->update('80guploads', $data);
         //echo $this->db->last_query(); 
+        return $this->db->affected_rows();
     }
 
-    public function get_entries($action = 'rows', $start, $limit, $donor = "") {
+    public function delete_entry($egithyg_id) {
+        $this->db->delete('80guploads', array('id' => $egithyg_id));
+        return $this->db->affected_rows();
+    }
+
+    public function get_entries($action = 'rows', $start, $limit, $donor = "", $email="", $trns_date = "") {
         $this->db->from('80guploads');
         $this->db->order_by('created_on', 'DESC');
         if($donor != "") {
             $this->db->like('donor_name', $donor);
+        }
+        if($email != "") {
+            $this->db->like('email', $email);
+        }
+        if($trns_date != "") {
+            $this->db->like('trns_date', $trns_date);
         }
         if($action == 'rows' || $action == 'export') {
             if($action !== 'export') {

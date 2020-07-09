@@ -35,15 +35,15 @@ class Expenditures extends MY_Controller {
 		$this->viewData['donor_name']= $this->donor_model->return_donors();
 		$this->viewData['area']=$this->areas_model->dropdown_areas();
 
-		$this->form_validation->set_rules('expenditure_dt', 'Expenditure dt', 'required');
-		$this->form_validation->set_rules('donor_name', 'donor name', 'required');
-		$this->form_validation->set_rules('area', 'area', 'required');
-		$this->form_validation->set_rules('nutrition_hygiene_kit', 'nutrition_hygiene_kit', 'required');
-		$this->form_validation->set_rules('meals', 'meals', 'required');
-		$this->form_validation->set_rules('medical_equipment', 'medical_equipment', 'required');
-		$this->form_validation->set_rules('sanitation_material', 'sanitation_material', 'required');
-		$this->form_validation->set_rules('ppe_kits', 'ppe_kits', 'required');
-		$this->form_validation->set_rules('amount_spent', 'amount_spent', 'required');
+		$this->form_validation->set_rules('expenditure_dt', 'Expenditure dt', 'trim|required');
+		$this->form_validation->set_rules('donor_name', 'donor name', 'trim|required');
+		$this->form_validation->set_rules('area', 'area', 'trim|required');
+		$this->form_validation->set_rules('nutrition_hygiene_kit', 'nutrition_hygiene_kit', 'trim|required');
+		$this->form_validation->set_rules('meals', 'meals', 'trim|required');
+		$this->form_validation->set_rules('medical_equipment', 'medical_equipment', 'trim|required');
+		$this->form_validation->set_rules('sanitation_material', 'sanitation_material', 'trim|required');
+		$this->form_validation->set_rules('ppe_kits', 'ppe_kits', 'trim|required');
+		$this->form_validation->set_rules('amount_spent', 'amount_spent', 'trim|required');
 		
 		if ($this->form_validation->run() === FALSE) {
 			$this->load->view('header', $this->headerData);
@@ -68,22 +68,21 @@ class Expenditures extends MY_Controller {
    		}
 	}
 	
-	public function update($expenditure_id) {
-		
-		$this->headerData['page_title'] = 'Update expenditures';
+	public function update($expenditure_id) {		
+		$this->headerData['page_title'] = 'Update expenditure';
 		$this->viewData['donor_name']= $this->donor_model->return_donors();
 		$this->viewData['area']=$this->areas_model->dropdown_areas();
 		$this->viewData['exp_details'] = $this->expenditure_model->get_details_exp($expenditure_id);
 		
-		$this->form_validation->set_rules('expenditure_dt', 'Expenditure dt', 'required');
-		$this->form_validation->set_rules('donor_id', 'donor', 'required');
-		$this->form_validation->set_rules('area_id', 'area', 'required');
-		$this->form_validation->set_rules('nutrition_hygiene_kit', 'nutrition_hygiene_kit', 'required');
-		$this->form_validation->set_rules('meals', 'donor_id', 'required');
-		$this->form_validation->set_rules('medical_equipment', 'medical_equipment', 'required');
-		$this->form_validation->set_rules('sanitation_material', 'sanitation_material', 'required');
-		$this->form_validation->set_rules('ppe_kits', 'ppe_kits', 'required');
-		$this->form_validation->set_rules('amount_spent', 'amount_spent', 'required');
+		$this->form_validation->set_rules('expenditure_dt', 'Expenditure dt', 'trim|required');
+		$this->form_validation->set_rules('donor_id', 'donor', 'trim|required');
+		$this->form_validation->set_rules('area_id', 'area', 'trim|required');
+		$this->form_validation->set_rules('nutrition_hygiene_kit', 'nutrition_hygiene_kit', 'trim|required');
+		$this->form_validation->set_rules('meals', 'donor_id', 'trim|required');
+		$this->form_validation->set_rules('medical_equipment', 'medical_equipment', 'trim|required');
+		$this->form_validation->set_rules('sanitation_material', 'sanitation_material', 'trim|required');
+		$this->form_validation->set_rules('ppe_kits', 'ppe_kits', 'trim|required');
+		$this->form_validation->set_rules('amount_spent', 'amount_spent', 'trim|required');
 	
 		if ($this->form_validation->run() === FALSE) {
          	$this->load->view('header', $this->headerData);
@@ -108,5 +107,30 @@ class Expenditures extends MY_Controller {
 			$this->session->set_flashdata('success', 'Updated Successfully');
             redirect('expenditures');
         }
+	}
+
+	public function delete($expenditure_id = NULL) {
+		$this->headerData['page_title'] = 'Delete Expenditure';
+		$this->viewData['exp_details'] = $this->expenditure_model->get_details_exp($expenditure_id);
+        $this->form_validation->set_rules('confirm', 'confirm', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            
+        } else {
+            if ('no' == $this->input->post('confirm')) {
+                redirect('expenditures');
+            }
+			$result = $this->expenditure_model->delete_entry($expenditure_id);
+			if ($result) {
+                $this->session->set_flashdata('success', 'Deleted Successfully');
+                redirect('expenditures');
+            } else {
+                $this->session->set_flashdata('error', 'Error while deleting entry. Try again!');
+                redirect('expenditures/delete/'.$expenditure_id);
+            }
+        }
+        // views - header, body, footer
+        $this->load->view('header', $this->headerData);
+        $this->load->view('expenditures/delete', $this->viewData);
+        $this->load->view('footer');
 	}
 }

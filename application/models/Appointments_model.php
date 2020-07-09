@@ -15,6 +15,7 @@ class appointments_model extends CI_Model{
         if($role == "employee") {
             $this->db->where('appointments.applied_by',$this->session->userdata("userId"));
         }
+        $this->db->order_by('appointments.created_on', 'DESC');
         if($action == 'rows' || $action == 'export') {
             if($action !== 'export') {
                 $this->db->limit($limit, $start);
@@ -36,7 +37,8 @@ class appointments_model extends CI_Model{
     }
 
     public function limit_check($app_date) {
-		$this->db->where('appointment_date',$app_date); 
+        $this->db->where('appointment_date',$app_date);
+        $this->db->where_in('approval_status',array('pending', 'yes'));
 		$this->db->from('appointments');
 		$count = $this->db->count_all_results();
 		return $count;
@@ -55,7 +57,7 @@ class appointments_model extends CI_Model{
 	public function week_appointments() {
 		$week_appointments = [];
 		$app_date = date('Y-m-d');
-		for ($i=0; $i <= 6; $i++) {
+		for ($i=0; $i <= 30; $i++) {
 			$this->db->where('appointment_date',$app_date); 
 			$this->db->from('appointments');
 			$count = $this->db->count_all_results();

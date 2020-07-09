@@ -1,18 +1,16 @@
 <div class="row"><div class="col-md-12">
 <div class="card">
     <div class="card-header">
-    <form action="<?php echo $current_url;?>" method="get">
-  <div class="form-row">
-    <div class="col">
-      <input type="text" class="form-control" placeholder="Donor name" name="donor" value="<?php echo $donor;?>">
-    </div>
-    <div class="col">
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <?php echo anchor('eightyg','<i class="fas fa-redo-alt nav-icon"></i> Reset', 'class="btn btn-default"'); ?>
-    <?php echo anchor('eightyg/create','<i class="fas fa-plus-square nav-icon"></i> Add New', 'class="btn btn-default"'); ?>
+    <form action="<?php echo $current_url;?>" method="get" class="form-inline">
+      <input type="text" class="form-control mr-sm-2" placeholder="Donor name" name="donor" value="<?php echo $donor;?>">
+      <input type="text" class="form-control mr-sm-2" placeholder="Email" name="email" value="<?php echo $email;?>">
+      <input type="text" class="form-control mr-sm-2" placeholder="Select Date" name="trns_date" id="trns_date" value="<?php echo $trns_date;?>">
+    <button type="submit" class="btn btn-primary mr-sm-2">Search</button>
+    <?php echo anchor('eightyg','<i class="fas fa-redo-alt nav-icon"></i> Reset', 'class="btn btn-default mr-sm-2"'); ?>
+    <?php echo anchor('eightyg/create','<i class="fas fa-plus-square nav-icon"></i> Add New', 'class="btn btn-default mr-sm-2"'); ?>
   <?php echo anchor('eightyg/fileupload','<i class="fas fa-upload nav-icon"></i> Upload', 'class="btn btn-default"'); ?>
-    </div>
-  </div>
+ 
+
 </form>
   
         </div>
@@ -23,7 +21,7 @@
                 <table class="table table-bordered table-sm">
                   <thead>                  
                     <tr>
-                    <th></th>
+                    <th><input type="checkbox" id="selectAll" /></th>
                       <th>receipt</th>
                       <th>donor</th>
                       <th>email</th>
@@ -53,7 +51,8 @@
                     echo '<td>'.$data->sent_email.'</td>';
                     echo '<td>'.anchor('eightyg/update/'.$data->id, '<i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Edit 80g"></i>', 'class="mr-1"');
                     //echo anchor('#', '<i class="fas fa-list" data-toggle="modal" data-target="#eightyg_'.$data->id.'"></i>', 'class=""');
-                    echo '<span style="cursor: pointer;" data-toggle="modal" data-target="#eightyg_'.$data->id.'"><i class="fas fa-list" data-toggle="tooltip" title="80g Details" data-placement="top"></i></span>';
+                    echo '<span style="cursor: pointer;" data-toggle="modal" data-target="#eightyg_'.$data->id.'"><i class="fas fa-list mr-1" data-toggle="tooltip" title="80g Details" data-placement="top"></i></span>';
+                    echo anchor('eightyg/delete/'.$data->id, '<i class="fas fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Delete 80g"></i>', 'class="mr-1"');
                   echo   '<div class="modal fade" id="eightyg_'.$data->id.'" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">                      

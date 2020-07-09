@@ -24,8 +24,8 @@ class Donors extends MY_Controller {
     
     public function create() {
 		$this->headerData['page_title'] = 'Create Donor';		
-		$this->form_validation->set_rules('Donorname', 'Donorname', 'required|is_unique[donors.donor_name]'); 
-        $this->form_validation->set_rules('Pho', 'Phone number', 'required');     
+		$this->form_validation->set_rules('Donorname', 'Donorname', 'trim|required|is_unique[donors.donor_name]'); 
+        $this->form_validation->set_rules('Pho', 'Phone number', 'trim|required');     
 		if ($this->form_validation->run() === FALSE) {			
 			$this->load->view('header', $this->headerData);
 			$this->load->view('donors/create', $this->viewData);
@@ -48,8 +48,8 @@ class Donors extends MY_Controller {
 		$this->headerData['page_title'] = 'Update Donors';
 		$this->viewData['donor_details'] = $this->donor_model->get_details($donor_id);
 		
-		$this->form_validation->set_rules('donor_name', 'Donor_name', 'required|unique_exclude[donors,donor_name,donor_id,'.$donor_id.']');
-		$this->form_validation->set_rules('phone_number', 'Phone_number', 'required');
+		$this->form_validation->set_rules('donor_name', 'Donor_name', 'trim|required|unique_exclude[donors,donor_name,donor_id,'.$donor_id.']');
+		$this->form_validation->set_rules('phone_number', 'Phone_number', 'trim|required');
 	
 		if ($this->form_validation->run() === FALSE) {
          	$this->load->view('header', $this->headerData);

@@ -11,7 +11,7 @@
 			<th>Appointment date</th>
             <th>Name</th>
             <th>Purpose of visit</th>
-            <th>Approval Status</th>
+            <th>Approval Status</th><th>Approval Comment</th>
             <th>created on</th>
             <?php if($user_role == "admin") {echo '<th>Actions</th>';} ?>
             </tr>
@@ -21,7 +21,8 @@ foreach ($view_data as $key => $value) {
 	 echo "<tr><td>".date('d-m-Y', strtotime($value['appointment_date']))."</td>";
    echo "<td>".$value['username']."</td>";
    echo "<td>".$value['visit_purpose']."</td>";
-   echo "<td>".$value['approval']."</td>";
+   echo "<td>".$value['approval_status']."</td>";
+   echo "<td>".$value['approval_comment']."</td>";
    echo "<td>".$value['created_on']."</td>";   
    if($user_role == "admin") {echo "<td>".anchor('appointments/approve/'.$value['appointment_id'], '<i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Edit Appointment"></i>', 'class="mr-1"')."</td>";}
    echo "</tr>"; 

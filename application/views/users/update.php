@@ -21,15 +21,17 @@
                     <?php echo form_input('username',$user_details->username, 'class="form-control" disabled'); ?>
                 </div>
                 <div class="form-group">
-                    <label for="donor_name">Full Name</label>
+                    <label for="donor_name">Full Name<span class="text-danger">*</span></label>
                     <?php echo form_input('full_name',$user_details->full_name, 'class="form-control"'); ?>
+                    <p class="help-block text-yellow">Unique, only alpha spaces allowed, min length:5, max length:150</p>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Email</label>
+                    <label for="exampleInputPassword1">Email<span class="text-danger">*</span></label>
                     <?php echo form_input('email',$user_details->email, 'class="form-control" required'); ?>
+                    <p class="help-block text-yellow">Unique, Valid Email address, min length:5, max length:150</p>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Status</label>
+                    <label for="exampleInputEmail1">Status<span class="text-danger">*</span></label>
                     <?php echo form_dropdown('status',array('0'=>'Inactive','1'=>'Active' ), $user_details->status, 'class="form-control"');?>
                   </div>
                 </div>

@@ -30,7 +30,7 @@ foreach ($view_data as $key => $value) {
         <td>".$value['sanitation_material']."</td>
         <td>".$value['ppe_kits']."</td>
         <td>".$value['amount_spent']."</td>
-        <td>".anchor('expenditures/update/'.$value['expenditure_id'], '<i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Edit Expenditure"></i>', '')."</td></tr>";
+        <td>".anchor('expenditures/update/'.$value['expenditure_id'], '<i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Edit Expenditure"></i>', 'class="mr-1"'). anchor('expenditures/delete/'.$value['expenditure_id'], '<i class="fas fa-trash-alt" data-toggle="tooltip" data-placement="top" title="Delete Expenditure"></i>', '')."</td></tr>";
 }
 ?>
 

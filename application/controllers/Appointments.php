@@ -33,8 +33,8 @@ class Appointments extends MY_Controller {
 	
 	public function create() {
 		$this->headerData['page_title'] = 'Create Appointment';		
-		$this->form_validation->set_rules('appointmentdt', 'appointment date', 'required|callback_limit_check'); 
-        $this->form_validation->set_rules('purpose', 'Purpose', 'required');     
+		$this->form_validation->set_rules('appointmentdt', 'appointment date', 'trim|required|callback_limit_check'); 
+        $this->form_validation->set_rules('purpose', 'Purpose', 'trim|required');     
 		if ($this->form_validation->run() === FALSE) {			
 			$this->load->view('header', $this->headerData);
 			$this->load->view('appointments/create', $this->viewData);
@@ -43,12 +43,21 @@ class Appointments extends MY_Controller {
 			$data=[
 				'appointment_date'=> $this->input->post('appointmentdt'),
 				'visit_purpose'=> $this->input->post('purpose'),
-				'approval' => 'no',
+				'approval_status' => 'pending',
 				'applied_by' => $this->session->userdata("userId"),
 				'created_on' => date('Y-m-d H:i:s')
 			];			
 			$this->appointments_model->insert_entry($data);
-			$email_status = $this->sendemail($data);
+			//$email_status = $this->sendemail($data);
+			$message ="<br/>
+<strong>Appointment Details:</strong><br/>
+Username : ".$this->session->userdata("username")."<br/>
+Appointment Date : ".$data['appointment_date']."<br/><br/>
+Visit Purpose : ".$data['visit_purpose']."<br/><br/>";
+			$to_address = "admin@unitedwayhyderabad.org";
+			$to_username = "UWH";
+			$subject = "New Appointment Request - ".$data['appointment_date'];
+			$email_status = $this->send_email($message, $to_address, $to_username, $subject, $attachment = "");
 			redirect('appointments');
 		}
 	}
@@ -70,19 +79,34 @@ class Appointments extends MY_Controller {
 	public function approve($appointment_id) {
 		$this->headerData['page_title'] = 'Approve Appointment';	
 		$this->viewData['appointment_details'] = $this->appointments_model->get_details($appointment_id);		
-		$this->form_validation->set_rules('approve', 'Approve', 'required');
+		$this->form_validation->set_rules('approval_status', 'Approve', 'required');
+		$this->form_validation->set_rules('appointment_date', 'appointment date', 'trim|required|callback_limit_check');
 		if ($this->form_validation->run() === FALSE) {			
 			$this->load->view('header', $this->headerData);
 			$this->load->view('appointments/approve', $this->viewData);
 			$this->load->view('footer');
         } else {			
 			$data=[
-				'approval' => 'yes',
+				'approval_status' => $this->input->post('approval_status'),
+				'approval_comment'=> $this->input->post('approval_comment'),
 				'approved_by' => $this->session->userdata("userId"),
 				'approved_on' => date('Y-m-d H:i:s')
 			];			
 			$this->appointments_model->update_entry($data, $appointment_id);
-			$email_status = $this->send_approval_email($this->viewData['appointment_details']);
+			// get user details for email and username
+			$user = $this->user_model->get_details($this->viewData['appointment_details']->applied_by);
+			$message ="<br/>
+<strong>Your Appointment Details</strong><br/><br/><br/>
+Username : ".$user->username."<br/>
+Appointment Date : ".$this->viewData['appointment_details']->appointment_date."<br/><br/>
+Visit Purpose : ".$this->viewData['appointment_details']->visit_purpose."<br/><br/>
+Appointment Status : ".$data['approval_status']."<br/><br/>
+Comments : ".$data['approval_comment']."<br/><br/>";
+			$to_address = $user->email;
+			$to_username = $user->username;
+			$subject = "Appointment Status Update - ".$data['appointment_date'];
+			$email_status = $this->send_email($message, $to_address, $to_username, $subject, $attachment = "");
+			//$email_status = $this->send_approval_email($appointment_id);
 			redirect('appointments');
 		}
 	}
@@ -169,7 +193,7 @@ Visit Purpose : ".$details->visit_purpose."<br/><br/>";
 			echo "Mailer Error: " . $mail->ErrorInfo;
 		} else {
 			$email_status =  true;
-			log_message('info', 'Appointment Email Success : '.$details->appointment_date);
+			//log_message('info', 'Appointment Email Success : '.$details->appointment_date);
 			//Section 2: IMAP
 			//$path = "{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail";
 			//Tell your server to open an IMAP connection using the same username and password as you used for SMTP
@@ -199,13 +223,17 @@ Visit Purpose : ".$details->visit_purpose."<br/><br/>";
 		return $result;
 	}
 
-	public function send_approval_email($details) {		
+	public function send_approval_email($appointment_id) {	
+		// get appointment latest details
+		$details = $this->appointments_model->get_details($appointment_id);
+		// get user details for email and username
 		$user = $this->user_model->get_details($details->applied_by);
 		$message ="<br/>
 <strong>Your Appointment Approved</strong><br/><br/><br/>
-Username : ".$this->session->userdata("username")."<br/>
+Username : ".$user->username."<br/>
 Appointment Date : ".$details->appointment_date."<br/><br/>
-Visit Purpose : ".$details->visit_purpose."<br/><br/>";
+Visit Purpose : ".$details->visit_purpose."<br/><br/>
+Comments : ".$details->approval_comment."<br/><br/>";
 		/*
 		* This example shows settings to use when sending via Google's Gmail servers.
 		* The IMAP section shows how to save this message to the 'Sent Mail' folder using IMAP commands.
@@ -282,7 +310,7 @@ Visit Purpose : ".$details->visit_purpose."<br/><br/>";
 			echo "Mailer Error: " . $mail->ErrorInfo;
 		} else {
 			$email_status =  true;
-			log_message('info', 'Appointment Email Success : '.$details->appointment_date);
+			//log_message('info', 'Appointment Email Success : '.$details->appointment_date);
 			//Section 2: IMAP
 			//$path = "{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail";
 			//Tell your server to open an IMAP connection using the same username and password as you used for SMTP

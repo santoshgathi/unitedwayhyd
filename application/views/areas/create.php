@@ -13,8 +13,9 @@
               <?php echo form_open('areas/create');?>
                 <div class="card-body">
                   <div class="form-group">
-                    <label for="exampleInputEmail1">Area Name</label>
-                    <input type="text" name="newArea" class="form-control" id="exampleInputEmail1" placeholder="Enter Area Name">
+                    <label for="exampleInputEmail1">Area Name<span class="text-red">*</span></label>
+                    <?php echo form_input('newArea', set_value('newArea'), 'class="form-control" required placeholder="Enter Area Name" size="100"'); ?>
+                    <p class="help-block text-yellow">Unique, only alpha spaces allowed, min length:3, max length:100</p>
                   </div>
                 </div>
                 <!-- /.card-body -->

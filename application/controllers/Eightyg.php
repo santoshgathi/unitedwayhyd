@@ -23,11 +23,13 @@ class Eightyg extends MY_Controller {
 		$this->load->library('pagination');
 		$this->headerData['page_title'] = 'List 80G';
 		$this->viewData['donor'] = $donor = $this->input->get('donor') ? $this->input->get('donor') : '';
+		$this->viewData['email'] = $email = $this->input->get('email') ? $this->input->get('email') : '';
+		$this->viewData['trns_date'] = $trns_date = $this->input->get('trns_date') ? $this->input->get('trns_date') : '';
 		$this->viewData['size'] = $size = $this->input->get('size') ? $this->input->get('size') : 10;
 		$page = $this->input->get('per_page') ? $this->input->get('per_page') : 0;
 		$config = $this->pagination_config_array('/index.php/eightyg/index/', $size);
-		$config['total_rows'] = $this->eightyg_model->get_entries('count', 0, 0, $donor);
-		$this->viewData['eightyg_data'] = $this->eightyg_model->get_entries('rows', $page, $config['per_page'], $donor);
+		$config['total_rows'] = $this->eightyg_model->get_entries('count', 0, 0, $donor, $email, $trns_date);
+		$this->viewData['eightyg_data'] = $this->eightyg_model->get_entries('rows', $page, $config['per_page'], $donor, $email, $trns_date);
 		//print_r($this->viewData['eightyg_data']);
 		$this->pagination->initialize($config);
 		$this->viewData['paginationSummary']  = $this->pagination_summary($page, $config['per_page'], $config['total_rows']);
@@ -118,19 +120,19 @@ class Eightyg extends MY_Controller {
 			if($count_receipts == 0) {
 				foreach($eightyg_data as $k => $v) {
 					//print_r($v);
-					$excel_receipt_no = $v['A'];
-					$excel_donor_name = $v['C'];
-					$excel_address1 = $v['D'];
-					$excel_address2 = $v['E'];
-					$excel_city = $v['F'];
-					$excel_pan_no = $v['G'];
-					$excel_email = $v['H'];
-					$excel_sum_monthly_contribution=str_replace(",", "", $v['I']);
-					$excel_amount_in_words = $v['J'];
-					$excel_trns_date = date('Y-m-d H:i:s', strtotime($v['K']));
-					$excel_ref_details = $v['L'];
-					$excel_bank = $v['M'];
-					$excel_donation_cause = $v['N'];
+					$excel_receipt_no = trim($v['A']);
+					$excel_donor_name = trim($v['C']);
+					$excel_address1 = trim($v['D']);
+					$excel_address2 = trim($v['E']);
+					$excel_city = trim($v['F']);
+					$excel_pan_no = trim($v['G']);
+					$excel_email = trim($v['H']);
+					$excel_sum_monthly_contribution = trim(str_replace(",", "", $v['I']));
+					$excel_amount_in_words = $this->amountInWords($excel_sum_monthly_contribution);
+					$excel_trns_date = date('Y-m-d H:i:s', strtotime($v['J']));
+					$excel_ref_details = trim($v['K']);
+					$excel_bank = trim($v['L']);
+					$excel_donation_cause = trim($v['M']);
 					$created_on = date('Y-m-d H:i:s');
 
 					$excel_data = array('receipt_no' => $excel_receipt_no, 'donor_name' => $excel_donor_name, 'pan_no'=> $excel_pan_no, 'email' => $excel_email, 'sum_monthly_contribution' => $excel_sum_monthly_contribution, 'amount_in_words' => $excel_amount_in_words, 'trns_date' => $excel_trns_date, 'ref_details' => $excel_ref_details, 'bank' => $excel_bank, 'pdf_80g' => 'NA', 'address1' => $excel_address1, 'address2' => $excel_address2, 'city' => $excel_city, 'donation_cause' => $excel_donation_cause, 'sent_email' => 'No', 'created_on' => $created_on);
@@ -146,43 +148,7 @@ class Eightyg extends MY_Controller {
 		$this->load->view('footer');
 	}
 
-	public function update($egithyg_id) {
-		$this->headerData['page_title'] = 'Update 80G';
-		$this->viewData['eightyg_details'] = $this->eightyg_model->get_details($egithyg_id);
-		//print_r($eightyg_details);
-		$this->form_validation->set_rules('receipt_no', 'receipt no', 'required|unique_exclude[80guploads,receipt_no,id,'.$egithyg_id.']');
-		$this->form_validation->set_rules('donor_name', 'donor name', 'required');
-		$this->form_validation->set_rules('pan_no', 'pan no', 'required');
-		$this->form_validation->set_rules('email', 'email', 'required');
-		$this->form_validation->set_rules('sum_monthly_contribution', 'sum monthly contribution', 'required');
-		$this->form_validation->set_rules('trns_date', 'trns date', 'required');
-		$this->form_validation->set_rules('ref_details', 'ref details', 'required');
-		$this->form_validation->set_rules('bank', 'bank', 'required');
-		if ($this->form_validation->run() === FALSE) {
-         	$this->load->view('header', $this->headerData);
-			$this->load->view('eightyg/update', $this->viewData);
-			$this->load->view('footer');
-        } else {
-			// form submit
-			// db save -- list page redirect 
-			$data['receipt_no'] = $this->input->post('receipt_no');
-			$data['donor_name'] = $this->input->post('donor_name');
-			$data['pan_no'] = $this->input->post('pan_no');
-			$data['email'] = $this->input->post('email');
-			$data['sum_monthly_contribution'] = $this->input->post('sum_monthly_contribution');
-			$data['trns_date'] = $this->input->post('trns_date');
-			$data['ref_details'] = $this->input->post('ref_details');
-			$data['amount_in_words'] = $this->input->post('amount_in_words');
-			$data['address1'] = $this->input->post('address1');
-			$data['address2'] = $this->input->post('address2');
-			$data['bank'] = $this->input->post('bank');
-			$data['city'] = $this->input->post('city');
-			$data['donation_cause'] = $this->input->post('donation_cause');
-			$this->viewData['eightyg_details'] = $this->eightyg_model->update_entry($data, $egithyg_id);
-			$this->session->set_flashdata('success', 'Updated Successfully');
-            redirect('eightyg');
-        }
-	}	
+		
 
 	// public function generatepdf ($data) {
 	// 	$details['firstname'] = 'first';
@@ -327,122 +293,25 @@ United Way of Hyderabad<br/>
 Phone : 040 40042010/11<br/>
 email : accounts@unitedwayhyderabad.org<br/>
 web: www.unitedwayhyderabad.org";
-		/*
-		* This example shows settings to use when sending via Google's Gmail servers.
-		* The IMAP section shows how to save this message to the 'Sent Mail' folder using IMAP commands.
-		*/
-
-		//SMTP needs accurate times, and the PHP time zone MUST be set
-		//This should be done in your php.ini, but this is how to do it if you don't have access to that
-		//date_default_timezone_set('Etc/UTC');
-
-		//Create a new PHPMailer instance
-		$mail = new PHPMailer;
-
-		//Tell PHPMailer to use SMTP
-		$mail->isSMTP();
-
-		//Enable SMTP debugging
-		// 0 = off (for production use)
-		// 1 = client messages
-		// 2 = client and server messages
-		$mail->SMTPDebug = 0;
-
-		//Ask for HTML-friendly debug output
-		$mail->Debugoutput = 'html';
-
-		//Set the hostname of the mail server
-		$mail->Host = 'smtp.gmail.com';
-		// use
-		// $mail->Host = gethostbyname('smtp.gmail.com');
-		// if your network does not support SMTP over IPv6
-
-		//Set the SMTP port number - 587 for authenticated TLS, a.k.a. RFC4409 SMTP submission
-		$mail->Port = 587;
-
-		//Set the encryption system to use - ssl (deprecated) or tls
-		$mail->SMTPSecure = 'tls';
-
-		//Whether to use SMTP authentication
-		$mail->SMTPAuth = true;
-
-		//Username to use for SMTP authentication - use full email address for gmail
-		$mail->Username = "noreply@unitedwayhyderabad.org";
-
-		//Password to use for SMTP authentication
-		$mail->Password = "<>3rPEr421";
-
-		//Set who the message is to be sent from
-		$mail->setFrom('noreply@unitedwayhyderabad.org', 'UWH');
-
-		//Set an alternative reply-to address
-		$mail->addReplyTo('admin@unitedwayhyderabad.org', 'UWH');
-
-		//$mail->addCC('suresh@unitedwayhyderabad.org');
-
-		//Set who the message is to be sent to
-		$mail->addAddress($details->email, $details->donor_name);
 		
-		//Set the subject line
-		$mail->Subject = "Thank you for your Donation to United Way of Hyderabad";
-
-		//Read an HTML message body from an external file, convert referenced images to embedded,
-		//convert HTML into a basic plain-text alternative body
-		$mail->msgHTML($message);
-
-		//Replace the plain text body with one created manually
-		//$mail->AltBody = 'This is a plain-text message body';
-
-		//Attach an image file
-		$mail->addAttachment('80g_certificates/'.$details->receipt_no.'.pdf');
-
-		$email_status = false;
-
-		//send the message, check for errors
-		if (!$mail->send()) {
-			echo "Mailer Error: " . $mail->ErrorInfo;
-		} else {
-			$email_status =  true;
-			log_message('info', 'Email Success : '.$details->receipt_no);
-			//Section 2: IMAP
-			//$path = "{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail";
-			//Tell your server to open an IMAP connection using the same username and password as you used for SMTP
-			//$imapStream = imap_open($path, $mail->Username, $mail->Password);
-			//$result = imap_append($imapStream, $path, $mail->getSentMIMEMessage());
-			//imap_close($imapStream);
-			//$email_status =  $email_status."Message saved status : ".$result;
-		}
-		return $email_status;
+		$to_address = $details->email;
+		$to_username = $details->donor_name;
+		$subject = "Thank you for your Donation to United Way of Hyderabad";
+		$attachment = '80g_certificates/'.$details->receipt_no.'.pdf';
+		return $this->send_email($message, $to_address, $to_username, $subject, $attachment);
 	}
-
-	//Section 2: IMAP
-	//IMAP commands requires the PHP IMAP Extension, found at: https://php.net/manual/en/imap.setup.php
-	//Function to call which uses the PHP imap_*() functions to save messages: https://php.net/manual/en/book.imap.php
-	//You can use imap_getmailboxes($imapStream, '/imap/ssl') to get a list of available folders or labels, this can
-	//be useful if you are trying to get this working on a non-Gmail IMAP server.
-	public function save_mail($mail) {
-		//You can change 'Sent Mail' to any other folder or tag
-		$path = "{imap.gmail.com:993/imap/ssl}[Gmail]/Sent Mail";
-
-		//Tell your server to open an IMAP connection using the same username and password as you used for SMTP
-		$imapStream = imap_open($path, $mail->Username, $mail->Password);
-
-		$result = imap_append($imapStream, $path, $mail->getSentMIMEMessage());
-		imap_close($imapStream);
-
-		return $result;
-	}
+	
 
 	public function create() {
 		$this->headerData['page_title'] = 'Create 80G';
-		$this->form_validation->set_rules('receipt_no', 'receipt no', 'required|is_unique[80guploads.receipt_no]');
-		$this->form_validation->set_rules('donor_name', 'donor name', 'required');
-		$this->form_validation->set_rules('pan_no', 'pan no', 'required');
-		$this->form_validation->set_rules('email', 'email', 'required');
-		$this->form_validation->set_rules('sum_monthly_contribution', 'sum monthly contribution', 'required');
-		$this->form_validation->set_rules('trns_date', 'trns date', 'required');
-		$this->form_validation->set_rules('ref_details', 'ref details', 'required');
-		$this->form_validation->set_rules('bank', 'bank', 'required');
+		$this->form_validation->set_rules('receipt_no', 'receipt no', 'trim|required|is_unique[80guploads.receipt_no]');
+		$this->form_validation->set_rules('donor_name', 'donor name', 'trim|required');
+		$this->form_validation->set_rules('pan_no', 'pan no', 'trim|required');
+		$this->form_validation->set_rules('email', 'email', 'trim|required');
+		$this->form_validation->set_rules('sum_monthly_contribution', 'sum monthly contribution', 'trim|required');
+		$this->form_validation->set_rules('trns_date', 'trns date', 'trim|required');
+		$this->form_validation->set_rules('ref_details', 'ref details', 'trim|required');
+		$this->form_validation->set_rules('bank', 'bank', 'trim|required');
 		if ($this->form_validation->run() === FALSE) {
          	$this->load->view('header', $this->headerData);
 			$this->load->view('eightyg/create', $this->viewData);
@@ -457,54 +326,93 @@ web: www.unitedwayhyderabad.org";
 			$data['sum_monthly_contribution'] = $this->input->post('sum_monthly_contribution');
 			$data['trns_date'] = $this->input->post('trns_date');
 			$data['ref_details'] = $this->input->post('ref_details');
-			$data['amount_in_words'] = $this->input->post('amount_in_words');
+			$data['amount_in_words'] = $this->amountInWords($data['sum_monthly_contribution']);
 			$data['address1'] = $this->input->post('address1');
 			$data['address2'] = $this->input->post('address2');
 			$data['bank'] = $this->input->post('bank');
 			$data['city'] = $this->input->post('city');
 			$data['donation_cause'] = $this->input->post('donation_cause');
-			$this->viewData['eightyg_details'] = $this->eightyg_model->insert_entry($data);
+			$resultId = $this->eightyg_model->insert_entry($data);
 			$this->session->set_flashdata('success', 'Created Successfully');
-            redirect('eightyg');
+			redirect('eightyg');
+			if ($resultId) {
+                $this->session->set_flashdata('success', 'Created Successfully');
+                //$this->session->set_flashdata('msg', array('success' => 'Platforms data has been created successfully.'));
+                redirect('eightyg');
+            } else {
+                $this->session->set_flashdata('error', 'Error while adding new entry. Try again!');
+                redirect('eightyg/Create');
+            }
         }
 	}
-	
-	public function amountInWords($amount) {
-		$amount_after_decimal = round($amount - ($num = floor($amount)), 2) * 100;
-		// Check if there is any number after decimal
-		$amt_hundred = null;
-		$count_length = strlen($num);
-		$x = 0;
-		$string = array();
-		$change_words = array(0 => '', 1 => 'One', 2 => 'Two',
-			3 => 'Three', 4 => 'Four', 5 => 'Five', 6 => 'Six',
-			7 => 'Seven', 8 => 'Eight', 9 => 'Nine',
-			10 => 'Ten', 11 => 'Eleven', 12 => 'Twelve',
-			13 => 'Thirteen', 14 => 'Fourteen', 15 => 'Fifteen',
-			16 => 'Sixteen', 17 => 'Seventeen', 18 => 'Eighteen',
-			19 => 'Nineteen', 20 => 'Twenty', 30 => 'Thirty',
-			40 => 'Forty', 50 => 'Fifty', 60 => 'Sixty',
-			70 => 'Seventy', 80 => 'Eighty', 90 => 'Ninety');
-		$here_digits = array('', 'Hundred','Thousand','Lakh', 'Crore');
-		while( $x < $count_length ) {
-			$get_divider = ($x == 2) ? 10 : 100;
-			$amount = floor($num % $get_divider);
-			$num = floor($num / $get_divider);
-			$x += $get_divider == 10 ? 1 : 2;
-			if ($amount) {
-				$add_plural = (($counter = count($string)) && $amount > 9) ? 's' : null;
-				$amt_hundred = ($counter == 1 && $string[0]) ? ' and ' : null;
-				$string [] = ($amount < 21) ? $change_words[$amount].' '. $here_digits[$counter]. $add_plural.'
-		   '.$amt_hundred:$change_words[floor($amount / 10) * 10].' '.$change_words[$amount % 10]. '
-		   '.$here_digits[$counter].$add_plural.' '.$amt_hundred;
-			}
-			else $string[] = null;
-		}
-		$implode_to_Rupees = implode('', array_reverse($string));
-		$get_paise = ($amount_after_decimal > 0) ? "And " . ($change_words[$amount_after_decimal / 10] . "
-	   " . $change_words[$amount_after_decimal % 10]) . ' Paise' : '';
-		return ($implode_to_Rupees ? $implode_to_Rupees . 'Rupees ' : '') . $get_paise;
-	}
+
+	public function update($egithyg_id) {
+		$this->headerData['page_title'] = 'Update 80G';
+		$this->viewData['eightyg_details'] = $this->eightyg_model->get_details($egithyg_id);
+		//print_r($eightyg_details);
+		$this->form_validation->set_rules('receipt_no', 'receipt no', 'trim|required|unique_exclude[80guploads,receipt_no,id,'.$egithyg_id.']');
+		$this->form_validation->set_rules('donor_name', 'donor name', 'trim|required');
+		$this->form_validation->set_rules('pan_no', 'pan no', 'trim|required');
+		$this->form_validation->set_rules('email', 'email', 'trim|required');
+		$this->form_validation->set_rules('sum_monthly_contribution', 'sum monthly contribution', 'trim|required');
+		$this->form_validation->set_rules('trns_date', 'trns date', 'trim|required');
+		$this->form_validation->set_rules('ref_details', 'ref details', 'trim|required');
+		$this->form_validation->set_rules('bank', 'bank', 'trim|required');
+		if ($this->form_validation->run() === FALSE) {
+         	$this->load->view('header', $this->headerData);
+			$this->load->view('eightyg/update', $this->viewData);
+			$this->load->view('footer');
+        } else {
+			// form submit
+			// db save -- list page redirect 
+			$data['receipt_no'] = $this->input->post('receipt_no');
+			$data['donor_name'] = $this->input->post('donor_name');
+			$data['pan_no'] = $this->input->post('pan_no');
+			$data['email'] = $this->input->post('email');
+			$data['sum_monthly_contribution'] = $this->input->post('sum_monthly_contribution');
+			$data['trns_date'] = $this->input->post('trns_date');
+			$data['ref_details'] = $this->input->post('ref_details');
+			$data['amount_in_words'] = $this->amountInWords($data['sum_monthly_contribution']);
+			$data['address1'] = $this->input->post('address1');
+			$data['address2'] = $this->input->post('address2');
+			$data['bank'] = $this->input->post('bank');
+			$data['city'] = $this->input->post('city');
+			$data['donation_cause'] = $this->input->post('donation_cause');
+			$this->viewData['eightyg_details'] = $this->eightyg_model->update_entry($data, $egithyg_id);
+			$this->session->set_flashdata('success', 'Updated Successfully');
+            redirect('eightyg');
+        }
+	}	
+
+	public function delete($egithyg_id = NULL) {
+		$this->headerData['page_title'] = 'Delete 80G';
+        // $this->viewHeaderData['breadcrumbs'] = array(
+        //     'admin' => array(anchor('gateways', 'Gateways', ''), 'Delete')
+        // );
+        // $this->viewHeaderData['page_heading'] = 'Delete Gateway';
+		// $this->viewData['gateway_ip'] = $gateway_ip;
+		$this->viewData['eightyg_details'] = $this->eightyg_model->get_details($egithyg_id);
+        $this->form_validation->set_rules('confirm', 'confirm', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            
+        } else {
+            if ('no' == $this->input->post('confirm')) {
+                redirect('eightyg');
+            }
+			$result = $this->eightyg_model->delete_entry($egithyg_id);
+			if ($result) {
+                $this->session->set_flashdata('success', 'Deleted Successfully');
+                redirect('eightyg');
+            } else {
+                $this->session->set_flashdata('error', 'Error while deleting entry. Try again!');
+                redirect('eightyg/delete/'.$egithyg_id);
+            }
+        }
+        // views - header, body, footer
+        $this->load->view('header', $this->headerData);
+        $this->load->view('eightyg/delete', $this->viewData);
+        $this->load->view('footer');
+	}	
 
 	public function pdfemail () {
 		echo "pdf--email";

@@ -17,8 +17,9 @@
               <?php echo form_open('areas/edit/'.$area->area_id);?>
                 <div class="card-body"> 
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Area Name</label>
-                    <?php echo form_input('area_name',$area->area_name, 'class="form-control" required'); ?>
+                    <label for="exampleInputEmail1">Area Name<span class="text-red">*</span></label>
+                    <?php echo form_input('area_name',$area->area_name, 'class="form-control" required size="100"'); ?>
+                    <p class="help-block text-yellow">Unique, only alpha spaces allowed, min length:3, max length:100</p>
                 </div>
                 
                 </div>

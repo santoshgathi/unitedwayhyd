@@ -15,6 +15,7 @@ class User_model extends CI_Model {
 	public function insert_entry($data) {
         $this->db->insert('users', $data);
         //echo $this->db->last_query(); 
+        //return $this->db->insert_id();
     }
 
 	public function get_users() 
@@ -35,7 +36,8 @@ class User_model extends CI_Model {
 	public function update_entry($data, $id) {		
         $this->db->where('id', $id);
         $this->db->update('users', $data);
-        //echo $this->db->last_query(); 
+        //echo $this->db->last_query();
+        return $this->db->affected_rows();
 	}
     
 

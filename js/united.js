@@ -11,6 +11,10 @@
 	minDate: -0,
 	maxDate: "+2M +10D"
   });
+  $("#selectAll").click(function(){
+    $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
+
+});
   $("#send").click(function()
     { 
   $.ajax({

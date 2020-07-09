@@ -13,12 +13,14 @@
               <?php echo form_open('appointments/create'); ?>
                 <div class="card-body">
                 <div class="form-group">
-                    <label for="expenditure_dt">Date</label>
-                    <input type="text" class="form-control" id="appointmentdt" placeholder="Select Date" name="appointmentdt" autocomplete="off" required>
+                    <label for="expenditure_dt">Date<span class="text-red">*</span></label>
+                    <?php echo form_input('appointmentdt', set_value('appointmentdt'), 'class="form-control" id="appointmentdt" placeholder="Select Date" autocomplete="off" required size="10"'); ?>
+                    <p class="help-block text-yellow">Date Format:yyyy-mm-dd</p>
                   </div>                  
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Purpose</label>
-                    <input type="text" class="form-control" id="purpose" placeholder="Enter Purpose" name="purpose">
+                    <label for="exampleInputPassword1">Purpose<span class="text-red">*</span></label>
+                    <?php echo form_textarea('purpose', set_value('purpose'), 'class="form-control" id="purpose" placeholder="Enter Purpose" size="255"'); ?>
+                    <p class="help-block text-yellow">min length:5, max length:255</p>
                   </div>
                 </div>
                 <!-- /.card-body -->

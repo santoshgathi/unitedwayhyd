@@ -22,7 +22,7 @@ foreach ($view_data as $key => $value) {
 	 	<td>".$value['username']."</td><td>".$value['full_name']."</td><td>".$value['email']."</td>
 		 <td>".(($value['status'])?'Active':'Inactive')."</td>
 		 <td>".$value['created_on']."</td>
-		<td>".anchor('users/update/'.$value['id'], '<i class="fas fa-edit" data-toggle="tooltip" title="Edit User"></i>', 'class="mr-1"')."</td>
+		<td>".anchor('users/update/'.$value['id'], '<i class="fas fa-edit" data-toggle="tooltip" title="Edit User"></i>', 'class="mr-1"').anchor('users/updateuserpwd/'.$value['id'], '<i class="fas fa-key" data-toggle="tooltip" title="Update Password"></i>', 'class="mr-1"')."</td>
 
 	 </tr>";
 	# code...

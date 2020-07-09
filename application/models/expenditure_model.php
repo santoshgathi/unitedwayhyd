@@ -44,7 +44,10 @@ class Expenditure_model extends CI_Model{
     }
     
 	public function get_details_exp($exp_id) {
-        $this->db->where('expenditure_id', $exp_id);
+        $this->db->select('expenditures.*, donors.donor_name, areas.area_name');
+        $this->db->join('donors', 'donors.donor_id = expenditures.donor_id');
+        $this->db->join('areas', 'areas.area_id = expenditures.area_id');
+        $this->db->where('expenditures.expenditure_id', $exp_id);
         $query = $this->db->get('expenditures');
         $row = $query->row();
         return $row;
@@ -55,4 +58,9 @@ class Expenditure_model extends CI_Model{
         $this->db->update('expenditures', $data);
         //echo $this->db->last_query(); 
 	} 
+
+    public function delete_entry($exp_id) {
+        $this->db->delete('expenditures', array('expenditure_id' => $exp_id));
+        return $this->db->affected_rows();
+    }
 }
