@@ -31,8 +31,8 @@
                     <?php echo form_input('donor_name', set_value('donor_name'), 'class="form-control" required'); ?>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">PAN No</label>
-                    <?php echo form_input('pan_no', set_value('pan_no'), 'class="form-control"'); ?>
+                    <label for="exampleInputEmail1">PAN No<span class="text-red">*</span></label>
+                    <?php echo form_input('pan_no', set_value('pan_no'), 'class="form-control" required'); ?>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email<span class="text-red">*</span></label>

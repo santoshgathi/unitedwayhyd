@@ -62,7 +62,7 @@
                     <td>City-Place</td>
                   </tr>
                   <tr>
-                    <th scope="row">Col G</th>
+                    <th scope="row">Col G <span class="text-red">*</span></th>
                     <td>PAN_NUMBER_C</td>
                   </tr>
                   <tr>

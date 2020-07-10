@@ -120,6 +120,7 @@ class Eightyg extends MY_Controller {
 			if($count_receipts == 0) {
 				foreach($eightyg_data as $k => $v) {
 					//print_r($v);
+
 					$excel_receipt_no = trim($v['A']);
 					$excel_donor_name = trim($v['C']);
 					$excel_address1 = trim($v['D']);
@@ -133,9 +134,8 @@ class Eightyg extends MY_Controller {
 					$excel_ref_details = trim($v['K']);
 					$excel_bank = trim($v['L']);
 					$excel_donation_cause = trim($v['M']);
-					$created_on = date('Y-m-d H:i:s');
 
-					$excel_data = array('receipt_no' => $excel_receipt_no, 'donor_name' => $excel_donor_name, 'pan_no'=> $excel_pan_no, 'email' => $excel_email, 'sum_monthly_contribution' => $excel_sum_monthly_contribution, 'amount_in_words' => $excel_amount_in_words, 'trns_date' => $excel_trns_date, 'ref_details' => $excel_ref_details, 'bank' => $excel_bank, 'pdf_80g' => 'NA', 'address1' => $excel_address1, 'address2' => $excel_address2, 'city' => $excel_city, 'donation_cause' => $excel_donation_cause, 'sent_email' => 'No', 'created_on' => $created_on);
+					$excel_data = array('receipt_no' => $excel_receipt_no, 'donor_name' => $excel_donor_name, 'pan_no'=> $excel_pan_no, 'email' => $excel_email, 'sum_monthly_contribution' => $excel_sum_monthly_contribution, 'amount_in_words' => $excel_amount_in_words, 'trns_date' => $excel_trns_date, 'ref_details' => $excel_ref_details, 'bank' => $excel_bank, 'pdf_80g' => 'NA', 'address1' => $excel_address1, 'address2' => $excel_address2, 'city' => $excel_city, 'donation_cause' => $excel_donation_cause, 'sent_email' => 'No', 'created_by' => $this->session->userdata("userId"), 'created_on' => date('Y-m-d H:i:s'));
 					//print_r($data);
 					$this->eightyg_model->insert_entry($excel_data);			
 				}
@@ -147,18 +147,6 @@ class Eightyg extends MY_Controller {
 		$this->load->view('eightyg/fileupload', $this->viewData);
 		$this->load->view('footer');
 	}
-
-		
-
-	// public function generatepdf ($data) {
-	// 	$details['firstname'] = 'first';
-	// 	$details['lastname'] = '';
-	// 	$details['city'] = 'hyd';
-	// 	$details['state'] = 'ap';
-	// 	$details['pan'] = 'pan1';
-	// 	$details['amount'] = '321.12';
-	// 	$this->generate80G_PDF($details, '123', 'Donation towards COVID-19 Relief Work');
-	// }
 	
 	public function generate80G_PDF($details) {
 		$trns_date   =   date('d-M-Y', strtotime($details->trns_date));
@@ -332,6 +320,10 @@ web: www.unitedwayhyderabad.org";
 			$data['bank'] = $this->input->post('bank');
 			$data['city'] = $this->input->post('city');
 			$data['donation_cause'] = $this->input->post('donation_cause');
+			$data['pdf_80g'] = 'NA';
+			$data['sent_email'] = 'No';
+			$data['created_by'] = $this->session->userdata("userId");
+			$data['created_on'] = date('Y-m-d H:i:s');
 			$resultId = $this->eightyg_model->insert_entry($data);
 			$this->session->set_flashdata('success', 'Created Successfully');
 			redirect('eightyg');
