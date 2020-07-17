@@ -34,7 +34,7 @@ class MY_Controller extends CI_Controller {
                 //'hyperledger_fabric/workflow' => 'Workflow',
                 'areas' => 'Areas',
                 'expenditures' => 'Expenditures',
-                'appointments' => 'Appiontments',
+                'appointments' => 'Appointments',
                 'users' => 'Users',
                 'users/updatemypwd' => 'My Account'
             ),

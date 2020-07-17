@@ -12,7 +12,7 @@
             <th>Name</th>
             <th>Purpose of visit</th>
             <th>Approval Status</th><th>Approval Comment</th>
-            <th>created on</th>
+            <th>Created On</th>
             <?php if($user_role == "admin") {echo '<th>Actions</th>';} ?>
             </tr>
 <?php 

@@ -8,7 +8,7 @@
               <div class="card-body">
 	<table class="table table-bordered">
 		<tr>
-			<th>Areas</th>
+			<th>Area Name</th>
 			<th>Action</th>
         </tr>
 <?php 

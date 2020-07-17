@@ -29,27 +29,27 @@
                     <?php echo form_dropdown('area_id',$area, $exp_details->area_id, 'class="form-control"');?>
                   </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Nutrition_hygiene_kit</label>
+                    <label for="exampleInputEmail1">Nutrition Hygiene Kits</label>
                     <?php echo form_input('nutrition_hygiene_kit', $exp_details->nutrition_hygiene_kit, 'class="form-control"'); ?>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">meals</label>
+                    <label for="exampleInputEmail1">Meals</label>
                     <?php echo form_input('meals', $exp_details->meals, 'class="form-control"'); ?>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">medical_equipment</label>
+                    <label for="exampleInputEmail1">Medical Equipment</label>
                     <?php echo form_input('medical_equipment',$exp_details->medical_equipment, 'class="form-control"'); ?>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">sanitation_material </label>
+                    <label for="exampleInputEmail1">Sanitation Material </label>
                     <?php echo form_input('sanitation_material', $exp_details->sanitation_material, 'class="form-control"'); ?>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Ppe kits</label>
+                    <label for="exampleInputEmail1">PPE Kits</label>
                     <?php echo form_input('ppe_kits', $exp_details->ppe_kits, 'class="form-control"'); ?>
                 </div> 
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Amount spent</label>
+                    <label for="exampleInputEmail1">Amount Spent</label>
                     <?php echo form_input('amount_spent', $exp_details->amount_spent, 'class="form-control"'); ?>
                 </div> 
                 <div class="form-group">

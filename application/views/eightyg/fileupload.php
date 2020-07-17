@@ -29,6 +29,9 @@
                     <label for="exampleInputFile">80G file</label>
                     <input type="file" class="form-control-file" name="userfile" required>
                   </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
                   </div>
                   <!--/.col (left) -->
                   <!-- left column -->
@@ -98,9 +101,9 @@
                 </div>
                 <!-- /.card-body -->
 
-                <div class="card-footer">
+                <!-- <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
+                </div> -->
               </form>
             </div>
             <!-- /.card -->

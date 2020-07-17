@@ -38,19 +38,19 @@
                     <input type="text" class="form-control" id="exampleInputPassword1" value="0" name="meals">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">medical equipment</label>
+                    <label for="exampleInputPassword1">Medical Equipment</label>
                     <input type="text" class="form-control" id="exampleInputPassword1" value="0" name="medical_equipment">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">sanitation material</label>
+                    <label for="exampleInputPassword1">Sanitation Material</label>
                     <input type="text" class="form-control" id="exampleInputPassword1" value="0" name="sanitation_material">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">ppe kits</label>
+                    <label for="exampleInputPassword1">PPE Kits</label>
                     <input type="text" class="form-control" id="exampleInputPassword1" value="0" name="ppe_kits">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">amount spent</label>
+                    <label for="exampleInputPassword1">Amount Spent</label>
                     <input type="text" class="form-control" id="exampleInputPassword1" value="0" name="amount_spent">
                   </div>
                   <div class="form-group">

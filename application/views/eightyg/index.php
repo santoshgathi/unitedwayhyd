@@ -22,14 +22,14 @@
                   <thead>                  
                     <tr>
                     <th><input type="checkbox" id="selectAll" /></th>
-                      <th>receipt</th>
-                      <th>donor</th>
-                      <th>email</th>
-                      <th>date</th>
+                      <th>Receipt No</th>
+                      <th>Donor</th>
+                      <th>Email</th>
+                      <th>Date</th>
                       <th>Amount</th>
                       <th>80G File</th>
                       <th>Email Sent</th>
-                      <th>actions</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -45,10 +45,18 @@
                     if($data->pdf_80g != '') {
                       if(get_file_info('80g_certificates/'.$data->pdf_80g)) {
                         $file_status = '<a href="'.base_url('80g_certificates/'.$data->pdf_80g).'" target="_blank">80G Pdf</a>';
-                      }
-                    }                    
+                      } else if ($data->pdf_80g == 'NA') {
+                        $file_status = '<span class="text-danger">NA</span>';
+                      } 
+                    }
+                    $sent_email_status = 'No';
+                    if($data->sent_email == 'No') {
+                      $sent_email_status = '<span class="text-danger">No</span>';
+                    } else if ($data->sent_email == 'Yes') {
+                      $sent_email_status = '<span class="text-success">Yes</span>';
+                    }                  
                     echo '<td>'.$file_status.'</td>';
-                    echo '<td>'.$data->sent_email.'</td>';
+                    echo '<td>'.$sent_email_status.'</td>';
                     echo '<td>'.anchor('eightyg/update/'.$data->id, '<i class="fas fa-edit" data-toggle="tooltip" data-placement="top" title="Edit 80g"></i>', 'class="mr-1"');
                     //echo anchor('#', '<i class="fas fa-list" data-toggle="modal" data-target="#eightyg_'.$data->id.'"></i>', 'class=""');
                     echo '<span style="cursor: pointer;" data-toggle="modal" data-target="#eightyg_'.$data->id.'"><i class="fas fa-list mr-1" data-toggle="tooltip" title="80g Details" data-placement="top"></i></span>';
@@ -60,11 +68,11 @@
                       <table class="table table-sm">
                       <tbody>
                       <tr>
-                          <th scope="row">receipt no</th>
+                          <th scope="row">Receipt No</th>
                           <td>'.$data->receipt_no.'</td>
                         </tr>
                         <tr>
-                          <th scope="row">donor name</th>
+                          <th scope="row">Donor Name</th>
                           <td>'.$data->donor_name.'</td>
                         </tr>
                         <tr>
@@ -76,7 +84,7 @@
                           <td>'.$data->email.'</td>
                         </tr>
                         <tr>
-                          <th scope="row">sum monthly contribution</th>
+                          <th scope="row">Sum Monthly Contribution</th>
                           <td>'.$data->sum_monthly_contribution.'</td>
                         </tr>
                         <tr>

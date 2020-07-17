@@ -8,8 +8,8 @@
               <div class="card-body">
 	<table class="table table-bordered table-sm">
 		<tr>
-			<th>Donorname</th>
-			<th>Phno</th><th>Email</th><th>Address</th>
+			<th>Donor name</th>
+			<th>Phone</th><th>Email</th><th>Address</th>
 			<th>Actions</th>
 </tr>
 <?php 

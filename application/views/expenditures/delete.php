@@ -31,7 +31,7 @@
             <dl>
                 <dt>Date</dt>
                 <dd><?php echo $exp_details->expenditure_dt; ?></dd>
-                <dt>Donor name</dt>
+                <dt>Donor Name</dt>
                 <dd><?php echo $exp_details->donor_name; ?></dd>
                 <dt>Area</dt>
                 <dd><?php echo $exp_details->area_name; ?></dd>

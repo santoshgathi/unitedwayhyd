@@ -11,12 +11,12 @@
 			<th>Expenditure date</th>
             <th>Donor</th>
             <th>Area</th>
-            <th>nutrition hygiene kit</th>
-            <th>meals</th>
-            <th>medical equipment</th>
-            <th>sanitation material</th>
-            <th>ppe kits</th>
-            <th>amount spent</th>
+            <th>Nutrition Hygiene Kits</th>
+            <th>Meals</th>
+            <th>Medical Equipment</th>
+            <th>Sanitation Material</th>
+            <th>PPE Kits</th>
+            <th>Amount Spent</th>
             <th>Actions</th>
 </tr>
 <?php 

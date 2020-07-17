@@ -41,7 +41,7 @@
                 <dd><?php echo $eightyg_details->donor_name; ?></dd>
                 <dt>Email</dt>
                 <dd><?php echo $eightyg_details->email; ?></dd>
-                <dt>sum monthly contribution</dt>
+                <dt>Sum Monthly Contribution</dt>
                 <dd><?php echo $eightyg_details->sum_monthly_contribution; ?></dd>
               </dl>
 </div>
