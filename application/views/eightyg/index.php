@@ -100,7 +100,7 @@
                           <td>'.$data->bank.'</td>
                         </tr>
                         <tr>
-                          <th scope="row">Cause for donation</th>
+                          <th scope="row">Cause For Donation</th>
                           <td>'.$data->donation_cause.'</td>
                         </tr>
                         <tr>

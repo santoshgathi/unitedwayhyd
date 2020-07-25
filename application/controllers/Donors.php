@@ -45,7 +45,7 @@ class Donors extends MY_Controller {
 	
 	public function update($donor_id) {
 		
-		$this->headerData['page_title'] = 'Update Donors';
+		$this->headerData['page_title'] = 'Update Donor';
 		$this->viewData['donor_details'] = $this->donor_model->get_details($donor_id);
 		
 		$this->form_validation->set_rules('donor_name', 'Donor_name', 'trim|required|unique_exclude[donors,donor_name,donor_id,'.$donor_id.']');

@@ -30,7 +30,7 @@
                     <?php echo form_dropdown('area',$area, '', 'class="form-control"');?>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputPassword1">Nutrition + Hygiene kit</label>
+                    <label for="exampleInputPassword1">Nutrition + Hygiene Kit</label>
                     <input type="text" class="form-control" id="exampleInputPassword1" value="0" name="nutrition_hygiene_kit">
                   </div>
                   <div class="form-group">

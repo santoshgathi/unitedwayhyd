@@ -16,7 +16,7 @@
                  <!-- left column -->
                 <div class="col-md-6">
                 <div class="form-group">
-                    <label for="donor_name">Date</label>
+                    <label for="donor_name">Appointment Date</label>
                     <?php echo form_input('appointment_date',$appointment_details->appointment_date, 'class="form-control" readonly'); ?>
                 </div>          
                 <div class="form-group">

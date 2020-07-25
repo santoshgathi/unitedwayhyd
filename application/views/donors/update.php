@@ -3,9 +3,9 @@
     <div class="col-md-6">
         <!-- general form elements -->
         <div class="card card-primary">
-              <div class="card-header">
+              <!-- <div class="card-header">
                 <h3 class="card-title">Update Donors</h3>
-              </div>
+              </div> -->
               <!-- /.card-header -->
               <!-- form start -->
               <?php if(isset($error)): ?>
@@ -21,7 +21,7 @@
                     <?php echo form_input('donor_name',$donor_details->donor_name, 'class="form-control"'); ?>
                 </div>
                 <div class="form-group">
-                    <label for="phone_number">Phone number</label>
+                    <label for="phone_number">Phone Number</label>
                     <?php echo form_input('phone_number', $donor_details->donor_phone, 'class="form-control"'); ?>
                 </div> 
                 <div class="form-group">

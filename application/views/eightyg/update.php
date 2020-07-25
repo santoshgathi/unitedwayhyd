@@ -47,7 +47,7 @@
                 </div>
                     <p class="help-block text-yellow">Date Format:yyyy-mm-dd</p>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Ref details</label>
+                    <label for="exampleInputEmail1">Ref Details</label>
                     <?php echo form_input('ref_details', $eightyg_details->ref_details, 'class="form-control"'); ?>
                 </div>
 

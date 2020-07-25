@@ -49,7 +49,7 @@
                     <p class="help-block text-yellow">Date Format:yyyy-mm-dd</p>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Ref details<span class="text-red">*</span></label>
+                    <label for="exampleInputEmail1">Ref Details<span class="text-red">*</span></label>
                     <?php echo form_input('ref_details', set_value('ref_details'), 'class="form-control" required'); ?>
                 </div>
 

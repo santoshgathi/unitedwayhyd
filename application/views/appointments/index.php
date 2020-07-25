@@ -8,9 +8,9 @@
               <div class="card-body">
               <table class="table table-bordered">
 		<tr>
-			<th>Appointment date</th>
-            <th>Name</th>
-            <th>Purpose of visit</th>
+			<th>Appointment Date</th>
+            <th>Username</th>
+            <th>Purpose Of Visit</th>
             <th>Approval Status</th><th>Approval Comment</th>
             <th>Created On</th>
             <?php if($user_role == "admin") {echo '<th>Actions</th>';} ?>

@@ -26,7 +26,7 @@
                   <!-- left column -->
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="exampleInputFile">80G file</label>
+                    <label for="exampleInputFile">80G File</label>
                     <input type="file" class="form-control-file" name="userfile" required>
                   </div>
                   <div class="form-group">
@@ -90,7 +90,7 @@
                   </tr>
                   <tr>
                     <th scope="row">Col M <span class="text-red">*</span></th>
-                    <td>Purpose of Donation</td>
+                    <td>Purpose Of Donation</td>
                   </tr>
                 </tbody>
               </table>

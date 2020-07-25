@@ -8,7 +8,7 @@
               <div class="card-body">
 	<table class="table table-bordered table-sm">
 		<tr>
-			<th>Donor name</th>
+			<th>Donor Name</th>
 			<th>Phone</th><th>Email</th><th>Address</th>
 			<th>Actions</th>
 </tr>

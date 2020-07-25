@@ -35,9 +35,9 @@
             <!-- right column -->
             <div class="col-md-6">
             <dl>
-                <dt>Receipt no</dt>
+                <dt>Receipt No</dt>
                 <dd><?php echo $eightyg_details->receipt_no; ?></dd>
-                <dt>Donor name</dt>
+                <dt>Donor Name</dt>
                 <dd><?php echo $eightyg_details->donor_name; ?></dd>
                 <dt>Email</dt>
                 <dd><?php echo $eightyg_details->email; ?></dd>

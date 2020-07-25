@@ -13,7 +13,7 @@
               <?php echo form_open('appointments/create'); ?>
                 <div class="card-body">
                 <div class="form-group">
-                    <label for="expenditure_dt">Date<span class="text-red">*</span></label>
+                    <label for="expenditure_dt">Appointment Date<span class="text-red">*</span></label>
                     <?php echo form_input('appointmentdt', set_value('appointmentdt'), 'class="form-control" id="appointmentdt" placeholder="Select Date" autocomplete="off" required size="10"'); ?>
                     <p class="help-block text-yellow">Date Format:yyyy-mm-dd</p>
                   </div>                  
