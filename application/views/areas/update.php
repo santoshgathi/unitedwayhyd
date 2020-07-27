@@ -14,7 +14,7 @@
             </div>
             <?php endif; ?>
 			<?php echo validation_errors(); ?>
-              <?php echo form_open('areas/edit/'.$area->area_id);?>
+              <?php echo form_open('areas/update/'.$area->area_id);?>
                 <div class="card-body"> 
                 <div class="form-group">
                     <label for="exampleInputEmail1">Area Name<span class="text-red">*</span></label>

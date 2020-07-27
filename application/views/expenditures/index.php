@@ -8,7 +8,7 @@
               <div class="card-body">
               <table class="table table-bordered">
 		<tr>
-			<th>Expenditure date</th>
+			<th>Expenditure Date</th>
             <th>Donor</th>
             <th>Area</th>
             <th>Nutrition Hygiene Kits</th>

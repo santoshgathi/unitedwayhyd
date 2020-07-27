@@ -23,6 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
+  <img src="<?php echo base_url('img/logo.png'); ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+           style="opacity: .8">
     <?php echo anchor('','<b>Unitedway</b>Hyderabad', ''); ?>
   </div>
   <!-- /.login-logo -->
